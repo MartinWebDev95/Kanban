@@ -1,3 +1,5 @@
+import ToggleTheme from '../components/ToggleTheme';
+
 function Login() {
   const handleLogin = () => {
 
@@ -54,6 +56,10 @@ function Login() {
           <img src="/assets/icon-google.svg" alt="Login with Google" className="w-7 h-7" />
           Login with Google
         </button>
+
+        <div className="lg:mx-auto mt-4">
+          <ToggleTheme />
+        </div>
       </section>
     </main>
   );
