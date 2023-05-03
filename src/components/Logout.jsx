@@ -6,7 +6,7 @@ function Logout() {
 
   return (
     currentUser && (
-      <div className="flex items-center gap-2 text-sm lg:text-lg">
+      <div className="flex items-center gap-2 text-sm lg:text-md">
         <p className="font-semibold dark:text-white text-black">
           {`Hi, ${currentUser.name}!`}
         </p>
