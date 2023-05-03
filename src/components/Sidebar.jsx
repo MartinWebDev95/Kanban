@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import ToggleTheme from './ToggleTheme';
 import Logout from './Logout';
+import HideSidebar from './HideSidebar';
 
 function Sidebar({ showSidebar, setShowSidebar }) {
   const [hideSidebar, setHideSidebar] = useState(!!localStorage.getItem('hideSidebar'));
@@ -10,16 +11,6 @@ function Sidebar({ showSidebar, setShowSidebar }) {
   const handleCloseModalSidebar = (e) => {
     if (e.target.ariaLabel === 'sidebar-modal') {
       setShowSidebar(!showSidebar);
-    }
-  };
-
-  const handleHideSidebar = () => {
-    if (hideSidebar) {
-      setHideSidebar(false);
-      localStorage.removeItem('hideSidebar');
-    } else {
-      setHideSidebar(true);
-      localStorage.setItem('hideSidebar', 'true');
     }
   };
 
@@ -52,21 +43,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
 
         <div className={`w-full mt-4 lg:mt-0 lg:h-1/2 lg:flex lg:flex-col lg:justify-end ${hideSidebar && 'lg:overflow-hidden'}`}>
 
-          <button
-            type="button"
-            className={`${hideSidebar ? 'hidden lg:flex lg:absolute lg:w-[5vw] lg:bottom-0 lg:left-0 lg:h-16 dark:lg:bg-slate-800 dark:lg:hover:bg-indigo-400 lg:bg-indigo-700 lg:hover:bg-indigo-400' : 'hidden lg:flex lg:w-[19vw]'} items-center gap-4 pl-6 py-4 mb-4 font-semibold rounded-r-full text-gray-500 lg:hover:text-indigo-700 lg:hover:bg-gray-100 transition-all duration-200 ease-in-out`}
-            onClick={handleHideSidebar}
-          >
-            {
-              hideSidebar
-                ? (<img src="/assets/icon-show-sidebar.svg" alt="Show sidebar" />)
-                : (<img src="/assets/icon-hide-sidebar.svg" alt="Hide sidebar" />)
-            }
-
-            <span className={`${hideSidebar && 'hidden'}`}>
-              Hide Sidebar
-            </span>
-          </button>
+          <HideSidebar hideSidebar={hideSidebar} setHideSidebar={setHideSidebar} />
 
           <div className="flex justify-center mb-4 lg:hidden">
             <Logout />
