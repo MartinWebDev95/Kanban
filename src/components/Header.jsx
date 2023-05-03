@@ -1,7 +1,7 @@
 import useThemeContext from '../hooks/useThemeContext';
 import Logout from './Logout';
 
-function Header() {
+function Header({ showSidebar, setShowSidebar }) {
   const { theme } = useThemeContext();
 
   return (
@@ -24,8 +24,19 @@ function Header() {
           <button
             type="button"
             className="text-2xl font-semibold dark:text-white text-black flex items-center gap-2 lg:pointer-events-none"
+            onClick={() => setShowSidebar(!showSidebar)}
           >
-            Platform Launch
+            <span>
+              Platform Launch
+            </span>
+
+            {showSidebar
+              ? (
+                <img src="/assets/icon-chevron-up.svg" alt="Arrow up" className="lg:hidden" />
+              ) : (
+
+                <img src="/assets/icon-chevron-down.svg" alt="Arrow down" className="lg:hidden" />
+              )}
           </button>
 
           <div className="flex items-center gap-4">
