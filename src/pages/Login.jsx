@@ -1,22 +1,17 @@
 import ToggleTheme from '../components/ToggleTheme';
+import useAuthContext from '../hooks/useAuthContext';
 
 function Login() {
-  const handleLogin = () => {
-
-  };
-
-  const handleChangeEmail = () => {
-
-  };
-
-  const handleLoginWithGoogle = () => {
-
-  };
+  const {
+    inputEmail, setInputEmail, handleLogin, handleLoginWithGoogle,
+  } = useAuthContext();
 
   return (
     <main className="grid place-content-center place-items-center h-screen w-full px-8">
       <section className="bg-white dark:bg-slate-800 p-8 rounded-md shadow-xl">
-        <h1 className="text-center text-black dark:text-white font-semibold text-2xl">Kanban Task Management</h1>
+        <h1 className="text-center text-black dark:text-white font-semibold text-2xl">
+          Kanban Task Management
+        </h1>
 
         <h2 className="text-center text-black dark:text-white font-semibold my-4 uppercase">
           Login
@@ -30,13 +25,15 @@ function Login() {
             <span className="dark:text-white font-semibold text-black text-sm">
               E-mail:
             </span>
+
             <input
               type="email"
               name="email"
               id="email"
-              value=""
+              value={inputEmail}
+              placeholder="example@kanban.com"
               className="bg-transparent border-2 rounded-md border-gray-300 dark:border-gray-500 p-2 font-semibold text-sm dark:text-white"
-              onChange={handleChangeEmail}
+              onChange={(e) => setInputEmail(e.target.value)}
             />
           </label>
 
@@ -44,7 +41,7 @@ function Login() {
             type="submit"
             className="bg-indigo-700 rounded-full p-2 hover:bg-indigo-500 text-white font-semibold transition-all duration-200 ease-in-out"
           >
-            Login
+            Sign in with email
           </button>
         </form>
 
@@ -54,7 +51,7 @@ function Login() {
           onClick={handleLoginWithGoogle}
         >
           <img src="/assets/icon-google.svg" alt="Login with Google" className="w-7 h-7" />
-          Login with Google
+          Sign in with Google
         </button>
 
         <div className="lg:mx-auto mt-4">
