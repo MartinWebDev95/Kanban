@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState } from 'react';
 import ToggleTheme from './ToggleTheme';
+import Logout from './Logout';
 
 function Sidebar({ showSidebar, setShowSidebar }) {
   const [hideSidebar, setHideSidebar] = useState(!!localStorage.getItem('hideSidebar'));
@@ -66,6 +67,10 @@ function Sidebar({ showSidebar, setShowSidebar }) {
               Hide Sidebar
             </span>
           </button>
+
+          <div className="flex justify-center mb-4 lg:hidden">
+            <Logout />
+          </div>
 
           <ToggleTheme />
         </div>
