@@ -11,10 +11,13 @@ function AuthProvider({ children }) {
   const [inputEmail, setInputEmail] = useState('');
   const navigate = useNavigate();
 
+  // Gets the current user details if there is an existing session
   const getInfoCurrentUser = async () => {
     const { data: { user } } = await supabase.auth.getUser();
 
-    if (user.user_metadata) {
+    const { app_metadata: { provider } } = user;
+
+    if (provider === 'google') {
       setCurrentUser({ id: user.id, name: user.user_metadata.full_name });
     } else {
       setCurrentUser({ id: user.id, name: user.email });
@@ -28,9 +31,7 @@ function AuthProvider({ children }) {
       if (!session) {
         navigate('/login');
 
-        if (currentUser) {
-          setCurrentUser(null);
-        }
+        setCurrentUser(null);
       } else {
         navigate('/');
 
@@ -45,7 +46,7 @@ function AuthProvider({ children }) {
 
     try {
       await supabase.auth.signInWithOtp({
-        inputEmail,
+        email: inputEmail,
         options: {
           emailRedirectTo: import.meta.env.VITE_HOME_URL,
         },
