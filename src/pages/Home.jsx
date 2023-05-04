@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import SectionTasks from '../components/SectionTasks';
 
 function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -8,8 +9,11 @@ function Home() {
   return (
     <>
       <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-      <main>
+
+      <main className="flex justify-between pt-16">
         <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+
+        <SectionTasks />
       </main>
     </>
   );
