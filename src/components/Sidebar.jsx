@@ -1,12 +1,22 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ToggleTheme from './ToggleTheme';
 import Logout from './Logout';
 import HideSidebar from './HideSidebar';
+import useDatabaseContext from '../hooks/useDatabaseContext';
+import getBoards from '../services/getBoards';
 
 function Sidebar({ showSidebar, setShowSidebar }) {
+  const { boards, setBoards } = useDatabaseContext();
   const [hideSidebar, setHideSidebar] = useState(!!localStorage.getItem('hideSidebar'));
+
+  useEffect(() => {
+    getBoards()
+      .then((items) => {
+        setBoards(items);
+      });
+  }, []);
 
   const handleCloseModalSidebar = (e) => {
     if (e.target.ariaLabel === 'sidebar-modal') {
@@ -30,14 +40,14 @@ function Sidebar({ showSidebar, setShowSidebar }) {
     >
       <div className="bg-white dark:bg-slate-800 rounded-xl w-4/5 py-4 lg:w-full lg:h-screen lg:rounded-none lg:flex lg:flex-col lg:justify-between lg:pt-16">
         <h2 className="uppercase text-gray-500 font-semibold ml-6 text-sm tracking-widest lg:mt-6 lg:mb-2 overflow-hidden">
-          All boards
+          {`All boards (${boards?.length})`}
         </h2>
 
         <div className={`lg:h-1/2 overflow-y-scroll scrollbar-hide ${hideSidebar && 'lg:overflow-hidden'}`}>
           <ul>
-            <li>Prueba</li>
-            <li>Prueba 2</li>
-            <li>Prueba 3</li>
+            {boards?.map((board) => (
+              <li key={board.id}>{board.name}</li>
+            ))}
           </ul>
         </div>
 
