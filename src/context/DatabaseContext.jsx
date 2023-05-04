@@ -6,6 +6,7 @@ function DatabaseProvider({ children }) {
   const [boards, setBoards] = useState([]);
   const [selectedBoard, setSelectedBoard] = useState({});
   const [taskStatus, setTaskStatus] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const value = useMemo(() => ({
@@ -15,9 +16,11 @@ function DatabaseProvider({ children }) {
     setSelectedBoard,
     taskStatus,
     setTaskStatus,
+    tasks,
+    setTasks,
     loading,
     setLoading,
-  }), [boards, selectedBoard, taskStatus, loading]);
+  }), [boards, selectedBoard, taskStatus, tasks, loading]);
 
   return (
     <dbContext.Provider value={value}>
