@@ -4,12 +4,15 @@ import getBoards from '../services/getBoards';
 import Board from './Board';
 
 function ListOfBoards() {
-  const { boards, setBoards } = useDatabaseContext();
+  const { boards, setBoards, setSelectedBoard } = useDatabaseContext();
 
   useEffect(() => {
     getBoards()
       .then((items) => {
         setBoards(items);
+
+        // Change the first board state to selected
+        setSelectedBoard(items[0]);
       });
   }, []);
 
