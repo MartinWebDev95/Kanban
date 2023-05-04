@@ -1,19 +1,4 @@
-import { useEffect } from 'react';
-import getStatus from '../services/getStatus';
-import useDatabaseContext from '../hooks/useDatabaseContext';
-
-function ListOfStatus() {
-  const { selectedBoard, taskStatus, setTaskStatus } = useDatabaseContext();
-
-  useEffect(() => {
-    if (Object.keys(selectedBoard).length > 0) {
-      getStatus(selectedBoard)
-        .then((item) => {
-          setTaskStatus(item);
-        });
-    }
-  }, [selectedBoard]);
-
+function ListOfStatus({ taskStatus }) {
   return (
     <ul className="grid grid-flow-col auto-cols-min h-full w-full gap-4">
 
