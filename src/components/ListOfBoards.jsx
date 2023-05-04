@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import useDatabaseContext from '../hooks/useDatabaseContext';
 import getBoards from '../services/getBoards';
+import Board from './Board';
 
 function ListOfBoards() {
   const { boards, setBoards } = useDatabaseContext();
@@ -30,7 +31,7 @@ function ListOfBoards() {
       </li>
 
       {boards?.map((board) => (
-        <li key={board.id}>{board.name}</li>
+        <Board key={board.id} board={board} />
       ))}
 
     </ul>
