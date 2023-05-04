@@ -1,8 +1,10 @@
+import useDatabaseContext from '../hooks/useDatabaseContext';
 import useThemeContext from '../hooks/useThemeContext';
 import Logout from './Logout';
 
 function Header({ showSidebar, setShowSidebar }) {
   const { theme } = useThemeContext();
+  const { selectedBoard } = useDatabaseContext();
 
   return (
     <header className="bg-white dark:bg-slate-800 p-4 lg:px-6 fixed z-20 w-full">
@@ -27,7 +29,7 @@ function Header({ showSidebar, setShowSidebar }) {
             onClick={() => setShowSidebar(!showSidebar)}
           >
             <span>
-              Platform Launch
+              {selectedBoard.name}
             </span>
 
             {showSidebar
