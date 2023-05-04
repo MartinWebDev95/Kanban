@@ -3,6 +3,7 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../supabase';
+import getInfoCurrentUser from '../services/getInfoCurrentUser';
 
 const authContext = createContext();
 
@@ -10,19 +11,6 @@ function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [inputEmail, setInputEmail] = useState('');
   const navigate = useNavigate();
-
-  // Gets the current user details if there is an existing session
-  const getInfoCurrentUser = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-
-    const { app_metadata: { provider } } = user;
-
-    if (provider === 'google') {
-      setCurrentUser({ id: user.id, name: user.user_metadata.full_name });
-    } else {
-      setCurrentUser({ id: user.id, name: user.email });
-    }
-  };
 
   useEffect(() => {
     // Receive a notification every time an auth event happens.
@@ -35,7 +23,10 @@ function AuthProvider({ children }) {
       } else {
         navigate('/');
 
-        getInfoCurrentUser();
+        getInfoCurrentUser()
+          .then((infoUser) => {
+            setCurrentUser(infoUser);
+          });
       }
     });
   }, []);
