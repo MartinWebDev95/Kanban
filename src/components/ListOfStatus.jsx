@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import useDatabaseContext from '../hooks/useDatabaseContext';
 import getTasks from '../services/getTasks';
 import ListOfTasks from './ListOfTasks';
+import getTasksNumberByStatus from '../helpers/getTasksNumberByStatus';
 
 function ListOfStatus({ taskStatus }) {
   const { tasks, setTasks, selectedBoard } = useDatabaseContext();
@@ -22,7 +23,8 @@ function ListOfStatus({ taskStatus }) {
           className="font-semibold text-gray-500 text-sm tracking-widest w-72"
         >
           <span>
-            {status.name}
+            {/* Return the task number of each status */}
+            {getTasksNumberByStatus({ tasks, status })}
           </span>
 
           <ListOfTasks tasks={tasks} status={status} />
