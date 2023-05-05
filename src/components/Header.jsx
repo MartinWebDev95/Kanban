@@ -3,11 +3,13 @@ import useDatabaseContext from '../hooks/useDatabaseContext';
 import useThemeContext from '../hooks/useThemeContext';
 import Logout from './Logout';
 import SettingsModal from './SettingsModal';
+import BoardModal from './BoardModal';
 
 function Header({ showSidebar, setShowSidebar }) {
   const { theme } = useThemeContext();
   const { selectedBoard } = useDatabaseContext();
-  const [openSettingsBoardModal, setOpenSettingsBoardModal] = useState(false);
+  const [openEditBoardModal, setOpenEditBoardModal] = useState(false);
+  const [openSettingsModal, setOpenSettingsModal] = useState(false);
 
   return (
     <header className="bg-white dark:bg-slate-800 p-4 lg:px-6 fixed z-20 w-full">
@@ -65,13 +67,21 @@ function Header({ showSidebar, setShowSidebar }) {
             <button
               type="button"
               className="p-1"
-              onClick={() => setOpenSettingsBoardModal(!openSettingsBoardModal)}
+              onClick={() => setOpenSettingsModal(!openSettingsModal)}
             >
               <img src="/assets/icon-vertical-ellipsis.svg" alt="Menu board" className="w-1" />
             </button>
 
             <SettingsModal
-              openSettingsBoardModal={openSettingsBoardModal}
+              openSettingsModal={openSettingsModal}
+              setOpenSettingModal={setOpenSettingsModal}
+              setOpenEditBoardModal={setOpenEditBoardModal}
+            />
+
+            <BoardModal
+              openBoardModal={openEditBoardModal}
+              setOpenBoardModal={setOpenEditBoardModal}
+              updating
             />
           </div>
         </div>
