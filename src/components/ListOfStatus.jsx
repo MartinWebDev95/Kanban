@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import useDatabaseContext from '../hooks/useDatabaseContext';
 import getTasks from '../services/getTasks';
+import ListOfTasks from './ListOfTasks';
 
 function ListOfStatus({ taskStatus }) {
   const { tasks, setTasks, selectedBoard } = useDatabaseContext();
@@ -24,13 +25,8 @@ function ListOfStatus({ taskStatus }) {
             {status.name}
           </span>
 
-          <ul className="flex flex-col gap-4 mt-4">
+          <ListOfTasks tasks={tasks} status={status} />
 
-            {tasks.map((task) => (
-              <li key={task.id}>{task.name}</li>
-            ))}
-
-          </ul>
         </li>
       ))}
 
