@@ -26,7 +26,7 @@ function BoardModal({ openBoardModal, setOpenBoardModal, updating = false }) {
         onClick={handleCloseBoardModal}
       >
         <form
-          className={`bg-white dark:bg-slate-800 rounded-md w-4/5 ${updating ? 'h-fit' : 'h-full'} px-8 py-8 lg:w-2/5 flex flex-col gap-8 overflow-y-scroll scrollbar-hide`}
+          className="bg-white dark:bg-slate-800 rounded-md w-4/5 h-fit px-8 py-8 lg:w-2/5 flex flex-col gap-8 overflow-y-scroll scrollbar-hide"
           onSubmit={handleSubmit}
         >
           <h2 className="text-black dark:text-white font-semibold text-lg text-left">
