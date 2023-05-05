@@ -1,4 +1,17 @@
+import { useEffect } from 'react';
+import useDatabaseContext from '../hooks/useDatabaseContext';
+import getTasks from '../services/getTasks';
+
 function ListOfStatus({ taskStatus }) {
+  const { tasks, setTasks, selectedBoard } = useDatabaseContext();
+
+  useEffect(() => {
+    getTasks(selectedBoard)
+      .then((item) => {
+        setTasks(item);
+      });
+  }, []);
+
   return (
     <ul className="grid grid-flow-col auto-cols-min h-full w-full gap-4">
 
@@ -10,6 +23,14 @@ function ListOfStatus({ taskStatus }) {
           <span>
             {status.name}
           </span>
+
+          <ul className="flex flex-col gap-4 mt-4">
+
+            {tasks.map((task) => (
+              <li key={task.id}>{task.name}</li>
+            ))}
+
+          </ul>
         </li>
       ))}
 
