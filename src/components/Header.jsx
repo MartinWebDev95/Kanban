@@ -1,10 +1,13 @@
+import { useState } from 'react';
 import useDatabaseContext from '../hooks/useDatabaseContext';
 import useThemeContext from '../hooks/useThemeContext';
 import Logout from './Logout';
+import SettingsModal from './SettingsModal';
 
 function Header({ showSidebar, setShowSidebar }) {
   const { theme } = useThemeContext();
   const { selectedBoard } = useDatabaseContext();
+  const [openSettingsBoardModal, setOpenSettingsBoardModal] = useState(false);
 
   return (
     <header className="bg-white dark:bg-slate-800 p-4 lg:px-6 fixed z-20 w-full">
@@ -59,9 +62,17 @@ function Header({ showSidebar, setShowSidebar }) {
               <span className="hidden lg:block">Add New Task</span>
             </button>
 
-            <button type="button" className="p-1">
+            <button
+              type="button"
+              className="p-1"
+              onClick={() => setOpenSettingsBoardModal(!openSettingsBoardModal)}
+            >
               <img src="/assets/icon-vertical-ellipsis.svg" alt="Menu board" className="w-1" />
             </button>
+
+            <SettingsModal
+              openSettingsBoardModal={openSettingsBoardModal}
+            />
           </div>
         </div>
       </div>
