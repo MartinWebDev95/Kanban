@@ -17,8 +17,29 @@ function ListOfInputs({ isSubtask = false }) {
 
   };
 
+  // Add news inputs
   const handleAddInput = () => {
+    const generateInputId = crypto.randomUUID();
 
+    if (isSubtask) {
+      setInputs([
+        ...inputs,
+        {
+          idInput: generateInputId,
+          nameInput: `subtask-${generateInputId}`,
+          valueInput: '',
+        },
+      ]);
+    } else {
+      setInputs([
+        ...inputs,
+        {
+          idInput: generateInputId,
+          nameInput: `taskStatus-${generateInputId}`,
+          valueInput: '',
+        },
+      ]);
+    }
   };
 
   return (
