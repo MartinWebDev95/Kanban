@@ -8,6 +8,13 @@ import ListOfInputs from './ListOfInputs';
 function BoardModal({ openBoardModal, setOpenBoardModal, updating = false }) {
   const { selectedBoard } = useDatabaseContext();
   const [nameBoard, setNameBoard] = useState('');
+  const [inputs, setInputs] = useState([
+    {
+      idInput: crypto.randomUUID(),
+      nameInput: `taskStatus-${crypto.randomUUID()}`,
+      valueInput: '',
+    },
+  ]);
 
   useEffect(() => {
     if (updating) {
@@ -58,7 +65,10 @@ function BoardModal({ openBoardModal, setOpenBoardModal, updating = false }) {
             />
           </label>
 
-          <ListOfInputs />
+          <ListOfInputs
+            inputs={inputs}
+            setInputs={setInputs}
+          />
 
           <button
             type="submit"

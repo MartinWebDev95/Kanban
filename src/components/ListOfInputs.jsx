@@ -1,16 +1,15 @@
-import { useState } from 'react';
+function ListOfInputs({ inputs, setInputs, isSubtask = false }) {
+  // Change the input value that has been written to
+  const handleChange = (e) => {
+    const newState = inputs.map((input) => {
+      if (input.idInput === e.target.id) {
+        return { ...input, valueInput: e.target.value };
+      }
 
-function ListOfInputs({ isSubtask = false }) {
-  const [inputs, setInputs] = useState([
-    {
-      idInput: crypto.randomUUID(),
-      nameInput: `taskStatus-${crypto.randomUUID()}`,
-      valueInput: '',
-    },
-  ]);
+      return input;
+    });
 
-  const handleChange = () => {
-
+    setInputs(newState);
   };
 
   // Add news inputs
