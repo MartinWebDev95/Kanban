@@ -7,7 +7,7 @@ const getBoards = async () => {
     const infoUser = await getInfoCurrentUser();
 
     // Get all boards that belongs to the current user
-    const { data } = await supabase.from('boards').select().eq('userId', infoUser.id);
+    const { data } = await supabase.from('boards').select().eq('user_id', infoUser.id);
 
     return data;
   } catch (error) {
