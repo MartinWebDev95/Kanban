@@ -15,7 +15,7 @@ function Header({ showSidebar, setShowSidebar }) {
 
   return (
     <header className="bg-white dark:bg-slate-800 p-4 lg:px-6 fixed z-20 w-full">
-      <div className="flex justify-between items-center gap-4 lg:gap-32">
+      <div className="flex justify-between items-center gap-4 lg:gap-24">
         {theme === 'dark'
           ? (
             <picture>
