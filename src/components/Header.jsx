@@ -4,11 +4,13 @@ import useThemeContext from '../hooks/useThemeContext';
 import Logout from './Logout';
 import SettingsModal from './SettingsModal';
 import BoardModal from './BoardModal';
+import DeleteModal from './DeleteModal';
 
 function Header({ showSidebar, setShowSidebar }) {
   const { theme } = useThemeContext();
   const { selectedBoard } = useDatabaseContext();
   const [openEditBoardModal, setOpenEditBoardModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openSettingsModal, setOpenSettingsModal] = useState(false);
 
   return (
@@ -76,12 +78,18 @@ function Header({ showSidebar, setShowSidebar }) {
               openSettingsModal={openSettingsModal}
               setOpenSettingModal={setOpenSettingsModal}
               setOpenEditBoardModal={setOpenEditBoardModal}
+              setOpenDeleteModal={setOpenDeleteModal}
             />
 
             <BoardModal
               openBoardModal={openEditBoardModal}
               setOpenBoardModal={setOpenEditBoardModal}
               updating
+            />
+
+            <DeleteModal
+              openDeleteModal={openDeleteModal}
+              setOpenDeleteModal={setOpenDeleteModal}
             />
           </div>
         </div>
