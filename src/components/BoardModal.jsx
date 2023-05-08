@@ -1,10 +1,19 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useDatabaseContext from '../hooks/useDatabaseContext';
+import ListOfInputs from './ListOfInputs';
 
 function BoardModal({ openBoardModal, setOpenBoardModal, updating = false }) {
+  const { selectedBoard } = useDatabaseContext();
   const [nameBoard, setNameBoard] = useState('');
+
+  useEffect(() => {
+    if (updating) {
+      setNameBoard(selectedBoard.name);
+    }
+  }, [selectedBoard]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,36 +58,7 @@ function BoardModal({ openBoardModal, setOpenBoardModal, updating = false }) {
             />
           </label>
 
-          <label htmlFor="taskName" className="flex flex-col gap-2">
-            <span className="text-gray-500 dark:text-white text-sm font-semibold">
-              Board Columns
-            </span>
-
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
-                name="inputColumn"
-                id="inputColumn"
-                value=""
-                placeholder="e.g. Todo"
-                className="dark:bg-slate-800 border-2 rounded-md py-2 px-2 border-gray-200 dark:border-gray-500 flex-1 placeholder:text-sm dark:text-white text-black font-normal"
-              />
-
-              <button
-                type="button"
-                className="w-fit"
-              >
-                <img src="/assets/icon-cross.svg" alt="Delete input" />
-              </button>
-            </div>
-          </label>
-
-          <button
-            type="button"
-            className="w-full rounded-full text-white bg-indigo-700 dark:text-indigo-700 dark:bg-white py-2 font-semibold lg:hover:bg-indigo-500 lg:hover:text-white transition-all duration-300 ease-in-out"
-          >
-            + Add New Column
-          </button>
+          <ListOfInputs />
 
           <button
             type="submit"
