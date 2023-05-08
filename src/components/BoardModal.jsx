@@ -24,7 +24,7 @@ function BoardModal({
     } else {
       setNameBoard('');
     }
-  }, [openBoardModal]);
+  }, [openBoardModal, selectedBoard]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -60,7 +60,7 @@ function BoardModal({
               type="text"
               name="taskName"
               id="taskName"
-              value={nameBoard}
+              defaultValue={nameBoard}
               placeholder="e.g. Product Launch"
               className="dark:bg-slate-800 border-2 rounded-md py-2 px-2 border-gray-200 dark:border-gray-500 text-black dark:text-white text-sm"
               onChange={(e) => setNameBoard(e.target.value)}
