@@ -5,7 +5,9 @@ import { useEffect, useState } from 'react';
 import useDatabaseContext from '../hooks/useDatabaseContext';
 import ListOfInputs from './ListOfInputs';
 
-function BoardModal({ openBoardModal, setOpenBoardModal, updating = false }) {
+function BoardModal({
+  openBoardModal, setOpenBoardModal, updating = false,
+}) {
   const { selectedBoard } = useDatabaseContext();
   const [nameBoard, setNameBoard] = useState('');
   const [inputs, setInputs] = useState([
@@ -19,8 +21,10 @@ function BoardModal({ openBoardModal, setOpenBoardModal, updating = false }) {
   useEffect(() => {
     if (updating) {
       setNameBoard(selectedBoard.name);
+    } else {
+      setNameBoard('');
     }
-  }, [selectedBoard]);
+  }, [openBoardModal]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,8 +33,6 @@ function BoardModal({ openBoardModal, setOpenBoardModal, updating = false }) {
   const handleCloseBoardModal = (e) => {
     if (e.target.ariaLabel === 'newBoard-modal') {
       setOpenBoardModal(false);
-
-      setNameBoard('');
     }
   };
 
