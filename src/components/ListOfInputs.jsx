@@ -13,10 +13,6 @@ function ListOfInputs({ isSubtask = false }) {
 
   };
 
-  const handleDelete = () => {
-
-  };
-
   // Add news inputs
   const handleAddInput = () => {
     const generateInputId = crypto.randomUUID();
@@ -42,6 +38,11 @@ function ListOfInputs({ isSubtask = false }) {
     }
   };
 
+  // Delete inputs
+  const handleDelete = (id) => {
+    setInputs(inputs.filter((input) => input.idInput !== id));
+  };
+
   return (
     <>
       <label htmlFor="taskName" className="flex flex-col gap-2">
@@ -63,7 +64,7 @@ function ListOfInputs({ isSubtask = false }) {
             <button
               type="button"
               className="w-fit"
-              onClick={handleDelete}
+              onClick={() => handleDelete(idInput)}
             >
               <img src="/assets/icon-cross.svg" alt="Delete input" />
             </button>
