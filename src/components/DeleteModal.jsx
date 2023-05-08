@@ -2,15 +2,18 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
 import useDatabaseContext from '../hooks/useDatabaseContext';
+import deleteBoard from '../services/deleteBoard';
 
 function DeleteModal({ openDeleteModal, setOpenDeleteModal }) {
-  const { selectedBoard } = useDatabaseContext();
+  const { selectedBoard, boards, setBoards } = useDatabaseContext();
 
-  const handleDelete = () => {
-    setOpenDeleteModal(false);
-  };
+  const handleDelete = async () => {
+    // Delete board in database
+    await deleteBoard(selectedBoard);
 
-  const handleCancel = () => {
+    // Update the boards state without the board just deleted
+    setBoards(boards.filter((board) => board.id !== selectedBoard.id));
+
     setOpenDeleteModal(false);
   };
 
@@ -47,7 +50,7 @@ function DeleteModal({ openDeleteModal, setOpenDeleteModal }) {
             <button
               type="button"
               className="bg-slate-100 text-indigo-700 dark:bg-white font-semibold rounded-full py-2 px-4 w-full text-sm hover:dark:bg-indigo-400 hover:bg-indigo-400 hover:text-white transition-all duration-200 ease-in-out"
-              onClick={handleCancel}
+              onClick={() => setOpenDeleteModal(false)}
             >
               Cancel
             </button>
