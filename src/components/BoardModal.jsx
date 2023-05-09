@@ -4,25 +4,22 @@
 import { useEffect, useState } from 'react';
 import useDatabaseContext from '../hooks/useDatabaseContext';
 import ListOfInputs from './ListOfInputs';
+import getDefaultInputs from '../helpers/getDefaultInputs';
 
 function BoardModal({
   openBoardModal, setOpenBoardModal, updating = false,
 }) {
-  const { selectedBoard } = useDatabaseContext();
+  const { selectedBoard, taskStatus } = useDatabaseContext();
   const [nameBoard, setNameBoard] = useState('');
-  const [inputs, setInputs] = useState([
-    {
-      idInput: crypto.randomUUID(),
-      nameInput: `taskStatus-${crypto.randomUUID()}`,
-      valueInput: '',
-    },
-  ]);
+  const [inputs, setInputs] = useState([]);
 
   useEffect(() => {
     if (updating) {
       setNameBoard(selectedBoard.name);
+      setInputs(getDefaultInputs(taskStatus));
     } else {
       setNameBoard('');
+      setInputs(getDefaultInputs());
     }
   }, [openBoardModal, selectedBoard]);
 
