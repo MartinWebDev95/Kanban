@@ -5,11 +5,17 @@ import { useEffect, useState } from 'react';
 import useDatabaseContext from '../hooks/useDatabaseContext';
 import ListOfInputs from './ListOfInputs';
 import getDefaultInputs from '../helpers/getDefaultInputs';
+import addBoard from '../services/addBoard';
+import useAuthContext from '../hooks/useAuthContext';
+import addTaskStatus from '../services/addTaskStatus';
 
 function BoardModal({
   openBoardModal, setOpenBoardModal, updating = false,
 }) {
-  const { selectedBoard, taskStatus } = useDatabaseContext();
+  const { currentUser } = useAuthContext();
+  const {
+    selectedBoard, taskStatus, setBoards,
+  } = useDatabaseContext();
   const [nameBoard, setNameBoard] = useState('');
   const [inputs, setInputs] = useState([]);
 
@@ -23,8 +29,26 @@ function BoardModal({
     }
   }, [openBoardModal, selectedBoard]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!updating) {
+      // Add new board to the database
+      const newBoard = await addBoard({ boardName: nameBoard, idUser: currentUser.id });
+
+      // Get the data from the tasks status inputs
+      const newTasksStatus = inputs.map((input) => (
+        { name: input.valueInput, board_id: newBoard[0].id }
+      ));
+
+      // Add the new tasks status that belong to the new board to the database
+      await addTaskStatus({ taskStatus: newTasksStatus });
+
+      // Update the board state with the new board
+      setBoards((prevState) => prevState.concat(newBoard[0]));
+    }
+
+    setOpenBoardModal(false);
   };
 
   const handleCloseBoardModal = (e) => {
