@@ -12,7 +12,7 @@ function HideSidebar({ hideSidebar, setHideSidebar }) {
   return (
     <button
       type="button"
-      className={`${hideSidebar ? 'hidden lg:flex lg:absolute lg:w-[5vw] lg:bottom-0 lg:left-0 lg:h-16 dark:lg:bg-slate-800 dark:lg:hover:bg-indigo-400 lg:bg-indigo-700 lg:hover:bg-indigo-400' : 'hidden lg:flex lg:w-[19vw]'} items-center gap-4 pl-6 py-4 mb-4 font-semibold rounded-r-full text-gray-500 lg:hover:text-indigo-700 lg:hover:bg-gray-100 transition-all duration-200 ease-in-out`}
+      className={`${hideSidebar ? 'hidden lg:flex lg:absolute lg:w-[5vw] lg:bottom-0 lg:left-0 lg:h-16 dark:lg:bg-slate-800 dark:lg:hover:bg-indigo-400 lg:bg-indigo-700 lg:hover:bg-indigo-400' : 'hidden lg:flex lg:w-[18vw] mr-4'} items-center gap-4 pl-6 py-4 mb-4 font-semibold rounded-r-full text-gray-500 lg:hover:text-indigo-700 lg:hover:bg-gray-100 transition-all duration-200 ease-in-out`}
       onClick={handleHideSidebar}
     >
       {
