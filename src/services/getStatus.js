@@ -3,7 +3,7 @@ import supabase from '../../supabase';
 const getStatus = async (selectedBoard) => {
   try {
     // Get all status that belongs to the selected board
-    const { data } = await supabase.from('status').select().eq('boardId', selectedBoard.id);
+    const { data } = await supabase.from('status').select().eq('board_id', selectedBoard.id);
 
     return data;
   } catch (error) {

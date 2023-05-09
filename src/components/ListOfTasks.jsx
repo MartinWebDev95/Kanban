@@ -5,7 +5,7 @@ function ListOfTasks({ tasks, status }) {
     <ul className="flex flex-col gap-4 mt-4">
 
       {tasks.map((task) => (
-        task.statusId === status.id && (
+        task.status_id === status.id && (
           <Task key={task.id} task={task} />
         )
       ))}
