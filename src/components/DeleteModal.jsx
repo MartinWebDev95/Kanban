@@ -5,7 +5,9 @@ import useDatabaseContext from '../hooks/useDatabaseContext';
 import deleteBoard from '../services/deleteBoard';
 
 function DeleteModal({ openDeleteModal, setOpenDeleteModal }) {
-  const { selectedBoard, boards, setBoards } = useDatabaseContext();
+  const {
+    selectedBoard, setSelectedBoard, boards, setBoards,
+  } = useDatabaseContext();
 
   const handleDelete = async () => {
     // Delete board in database
@@ -13,6 +15,8 @@ function DeleteModal({ openDeleteModal, setOpenDeleteModal }) {
 
     // Update the boards state without the board just deleted
     setBoards(boards.filter((board) => board.id !== selectedBoard.id));
+
+    setSelectedBoard(boards[0]);
 
     setOpenDeleteModal(false);
   };
