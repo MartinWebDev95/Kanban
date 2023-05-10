@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useState } from 'react';
+import ListOfSubtasks from './ListOfSubtasks';
 
 function TaskModal({
   openTaskModal, setOpenTaskModal, task, subtasks,
@@ -38,11 +39,7 @@ function TaskModal({
             <p className="text-gray-500 font-semibold text-sm">{task.description}</p>
           )}
 
-          <ul>
-            {subtasks.map((subtask) => (
-              <li key={subtask.id}>{subtask.name}</li>
-            ))}
-          </ul>
+          <ListOfSubtasks subtasks={subtasks} />
 
         </div>
       </div>
