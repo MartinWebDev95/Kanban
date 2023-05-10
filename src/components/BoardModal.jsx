@@ -1,52 +1,24 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
-import { useEffect, useState } from 'react';
-import useDatabaseContext from '../hooks/useDatabaseContext';
 import ListOfInputs from './ListOfInputs';
-import getDefaultInputs from '../helpers/getDefaultInputs';
-import addBoard from '../services/addBoard';
-import useAuthContext from '../hooks/useAuthContext';
-import addTaskStatus from '../services/addTaskStatus';
+import useBoards from '../hooks/useBoards';
+import useTasksStatus from '../hooks/useTasksStatus';
 
 function BoardModal({
   openBoardModal, setOpenBoardModal, updating = false,
 }) {
-  const { currentUser } = useAuthContext();
+  const { addOrUpdateBoards, nameBoard, setNameBoard } = useBoards({ openBoardModal, updating });
   const {
-    selectedBoard, taskStatus, setBoards,
-  } = useDatabaseContext();
-  const [nameBoard, setNameBoard] = useState('');
-  const [inputs, setInputs] = useState([]);
-
-  useEffect(() => {
-    if (updating) {
-      setNameBoard(selectedBoard.name);
-      setInputs(getDefaultInputs(taskStatus));
-    } else {
-      setNameBoard('');
-      setInputs(getDefaultInputs());
-    }
-  }, [openBoardModal, selectedBoard]);
+    addOrUpdateTasksStatus, inputs, setInputs,
+  } = useTasksStatus({ openBoardModal, updating });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!updating) {
-      // Add new board to the database
-      const newBoard = await addBoard({ boardName: nameBoard, idUser: currentUser.id });
+    const newBoardId = await addOrUpdateBoards();
 
-      // Get the data from the tasks status inputs
-      const newTasksStatus = inputs.map((input) => (
-        { name: input.valueInput, board_id: newBoard[0].id }
-      ));
-
-      // Add the new tasks status that belong to the new board to the database
-      await addTaskStatus({ taskStatus: newTasksStatus });
-
-      // Update the board state with the new board
-      setBoards((prevState) => prevState.concat(newBoard[0]));
-    }
+    await addOrUpdateTasksStatus({ boardId: newBoardId });
 
     setOpenBoardModal(false);
   };
