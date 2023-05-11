@@ -34,6 +34,7 @@ function Task({ task }) {
         setOpenTaskModal={setOpenTaskModal}
         task={task}
         subtasks={subtasks}
+        setSubtasks={setSubtasks}
       />
     </>
   );

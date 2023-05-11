@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ListOfSubtasks from './ListOfSubtasks';
 
 function TaskModal({
-  openTaskModal, setOpenTaskModal, task, subtasks,
+  openTaskModal, setOpenTaskModal, task, subtasks, setSubtasks,
 }) {
   const [openSettingsTaskModal, setOpenSettingsTaskModal] = useState(false);
 
@@ -35,11 +35,11 @@ function TaskModal({
             </button>
           </div>
 
-          {task.description !== '' && (
+          {task.description !== null && (
             <p className="text-gray-500 font-semibold text-sm">{task.description}</p>
           )}
 
-          <ListOfSubtasks subtasks={subtasks} />
+          <ListOfSubtasks subtasks={subtasks} setSubtasks={setSubtasks} />
 
         </div>
       </div>

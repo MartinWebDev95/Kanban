@@ -1,6 +1,27 @@
-function ListOfSubtasks({ subtasks }) {
-  const handleCheckedSubtask = () => {
+import updateDoneSubtask from '../services/updateDoneSubtask';
 
+function ListOfSubtasks({ subtasks, setSubtasks }) {
+  const handleCheckedSubtask = (e) => {
+    // Update the table column in the database
+    subtasks.forEach(async (subtask) => {
+      if (subtask.id === Number(e.target.id)) {
+        await updateDoneSubtask({
+          idSubtask: subtask.id,
+          doneSubtask: !subtask.done,
+        });
+      }
+    });
+
+    // Update done property in the state
+    const newSubtasksState = subtasks.map((subtask) => {
+      if (subtask.id === Number(e.target.id)) {
+        return { ...subtask, done: !subtask.done };
+      }
+
+      return subtask;
+    });
+
+    setSubtasks(newSubtasksState);
   };
 
   return (
