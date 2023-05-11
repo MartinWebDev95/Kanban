@@ -3,23 +3,34 @@
 
 import useDatabaseContext from '../hooks/useDatabaseContext';
 import deleteBoard from '../services/deleteBoard';
+import deleteTask from '../services/deleteTask';
 
 function DeleteModal({
   openDeleteModal, setOpenDeleteModal, task = {}, isTask = false,
 }) {
   const {
-    selectedBoard, setSelectedBoard, boards, setBoards,
+    selectedBoard, setSelectedBoard, boards, setBoards, tasks, setTasks,
   } = useDatabaseContext();
 
   const handleDelete = async () => {
-    // Delete board in database
-    await deleteBoard(selectedBoard);
+    if (isTask) {
+      // Delete task in database
+      await deleteTask({ idTask: task.id });
 
-    // Update the boards state without the board just deleted
-    setBoards(boards.filter((board) => board.id !== selectedBoard.id));
+      // Update the task state without the task just deleted
+      setTasks(tasks.filter((item) => item.id !== task.id));
+    } else {
+      // Delete board in database
+      await deleteBoard(selectedBoard);
 
-    setSelectedBoard(boards[0]);
+      // Update the boards state without the board just deleted
+      setBoards(boards.filter((board) => board.id !== selectedBoard.id));
 
+      // Select the first board of the list
+      setSelectedBoard(boards[0]);
+    }
+
+    // Close delete modal after the operation
     setOpenDeleteModal(false);
   };
 
