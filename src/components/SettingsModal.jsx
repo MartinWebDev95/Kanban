@@ -1,18 +1,18 @@
 function SettingsModal({
   openSettingsModal,
-  setOpenSettingModal,
-  setOpenEditBoardModal,
+  setOpenSettingsModal,
+  setOpenEditModal,
   setOpenDeleteModal,
   isTask = false,
 }) {
   const handleDelete = () => {
     setOpenDeleteModal(true);
-    setOpenSettingModal(false);
+    setOpenSettingsModal(false);
   };
 
   const handleEdit = () => {
-    setOpenEditBoardModal(true);
-    setOpenSettingModal(false);
+    setOpenEditModal(true);
+    setOpenSettingsModal(false);
   };
 
   return (
