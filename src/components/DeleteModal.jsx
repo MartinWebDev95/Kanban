@@ -4,7 +4,9 @@
 import useDatabaseContext from '../hooks/useDatabaseContext';
 import deleteBoard from '../services/deleteBoard';
 
-function DeleteModal({ openDeleteModal, setOpenDeleteModal }) {
+function DeleteModal({
+  openDeleteModal, setOpenDeleteModal, task = {}, isTask = false,
+}) {
   const {
     selectedBoard, setSelectedBoard, boards, setBoards,
   } = useDatabaseContext();
@@ -36,11 +38,23 @@ function DeleteModal({ openDeleteModal, setOpenDeleteModal }) {
       >
         <div className=" w-3/4 lg:w-2/5 bg-white dark:bg-slate-800 py-6 px-8 rounded-lg">
 
-          <h2 className="text-red-500 text-xl font-semibold mb-2">Delete this board?</h2>
+          {isTask ? (
+            <>
+              <h2 className="text-red-500 text-xl font-semibold mb-2">Delete this task?</h2>
 
-          <p className="text-gray-500 text-sm">
-            {`Are you sure you want to delete the "${selectedBoard.name}" board? This action will remove all columns and tasks and cannot be reversed.`}
-          </p>
+              <p className="text-gray-500 text-sm">
+                {`Are you sure you want to delete the "${task.name}" task and its subtasks? This action cannot be reversed.`}
+              </p>
+            </>
+          ) : (
+            <>
+              <h2 className="text-red-500 text-xl font-semibold mb-2">Delete this board?</h2>
+
+              <p className="text-gray-500 text-sm">
+                {`Are you sure you want to delete the "${selectedBoard.name}" board? This action will remove all columns and tasks and cannot be reversed.`}
+              </p>
+            </>
+          )}
 
           <div className="flex items-center justify-between gap-4 w-full lg:w-3/4 mx-auto mt-6">
             <button
