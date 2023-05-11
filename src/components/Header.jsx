@@ -5,13 +5,15 @@ import Logout from './Logout';
 import SettingsModal from './SettingsModal';
 import BoardModal from './BoardModal';
 import DeleteModal from './DeleteModal';
+import AddUpdateTaskModal from './AddUpdateTaskModal';
 
 function Header({ showSidebar, setShowSidebar }) {
   const { theme } = useThemeContext();
   const { selectedBoard } = useDatabaseContext();
-  const [openEditBoardModal, setOpenEditBoardModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openSettingsModal, setOpenSettingsModal] = useState(false);
+  const [openAddUpdateTaskModal, setOpenAddUpdateTaskModal] = useState(false);
 
   return (
     <header className="bg-white dark:bg-slate-800 p-4 lg:px-6 fixed z-20 w-full">
@@ -56,6 +58,7 @@ function Header({ showSidebar, setShowSidebar }) {
             <button
               type="button"
               className="bg-indigo-700 rounded-full text-white font-semibold px-4 py-2 flex items-center gap-2 text-xl lg:text-lg lg:hover:bg-indigo-500 transition-all duration-300 ease-in-out"
+              onClick={() => setOpenAddUpdateTaskModal(true)}
             >
               <span>
                 <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
@@ -76,15 +79,20 @@ function Header({ showSidebar, setShowSidebar }) {
 
             <SettingsModal
               openSettingsModal={openSettingsModal}
-              setOpenSettingModal={setOpenSettingsModal}
-              setOpenEditBoardModal={setOpenEditBoardModal}
+              setOpenSettingsModal={setOpenSettingsModal}
+              setOpenEditModal={setOpenEditModal}
               setOpenDeleteModal={setOpenDeleteModal}
             />
 
             <BoardModal
-              openBoardModal={openEditBoardModal}
-              setOpenBoardModal={setOpenEditBoardModal}
+              openBoardModal={openEditModal}
+              setOpenBoardModal={setOpenEditModal}
               updating
+            />
+
+            <AddUpdateTaskModal
+              openAddUpdateTaskModal={openAddUpdateTaskModal}
+              setOpenAddUpdateTaskModal={setOpenAddUpdateTaskModal}
             />
 
             <DeleteModal
