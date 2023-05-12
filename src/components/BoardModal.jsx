@@ -16,9 +16,13 @@ function BoardModal({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newBoardId = await addOrUpdateBoards();
+    if (!updating) {
+      const newBoardId = await addOrUpdateBoards();
 
-    await addOrUpdateTasksStatus({ boardId: newBoardId });
+      await addOrUpdateTasksStatus({ boardId: newBoardId });
+    } else {
+      await addOrUpdateBoards();
+    }
 
     setOpenBoardModal(false);
   };
