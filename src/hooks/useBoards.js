@@ -2,10 +2,13 @@ import { useCallback, useEffect, useState } from 'react';
 import useAuthContext from './useAuthContext';
 import useDatabaseContext from './useDatabaseContext';
 import addBoard from '../services/addBoard';
+import updateBoardName from '../services/updateBoardName';
 
 function useBoards({ openBoardModal, updating }) {
   const { currentUser } = useAuthContext();
-  const { selectedBoard, setBoards } = useDatabaseContext();
+  const {
+    selectedBoard, setSelectedBoard, boards, setBoards,
+  } = useDatabaseContext();
   const [nameBoard, setNameBoard] = useState('');
 
   // Write the board name in the input value if it is in update mode
@@ -27,6 +30,25 @@ function useBoards({ openBoardModal, updating }) {
 
       // Return the id of the new board just added
       return newBoard[0].id;
+    }
+
+    if (selectedBoard.name !== nameBoard) {
+      // Update the board name in the database
+      await updateBoardName({ idBoard: selectedBoard.id, newBoardName: nameBoard });
+
+      // Update the board name in the boards state
+      const newBoardsState = boards.map((item) => {
+        if (item.id === selectedBoard.id) {
+          return { ...item, name: nameBoard };
+        }
+
+        return item;
+      });
+
+      setBoards(newBoardsState);
+
+      // Change the first board state to selected
+      setSelectedBoard(boards[0]);
     }
 
     return null;
