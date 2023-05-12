@@ -1,15 +1,30 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import ListOfInputs from './ListOfInputs';
+import getDefaultInputs from '../helpers/getDefaultInputs';
 
 function AddUpdateTaskModal({
-  openAddUpdateTaskModal, setOpenAddUpdateTaskModal, updating = false,
+  openAddUpdateTaskModal, setOpenAddUpdateTaskModal, task = {}, subtasks = [], updating = false,
 }) {
+  const [inputs, setInputs] = useState([]);
   const [formTask, setFormTask] = useState({
     taskName: '',
     taskDescription: '',
   });
+
+  useEffect(() => {
+    if (updating) {
+      setInputs(getDefaultInputs({ inputs: subtasks, isSubtask: true }));
+      setFormTask({
+        taskName: task.name,
+        taskDescription: task.description,
+      });
+    } else {
+      setInputs(getDefaultInputs({ inputs: [], isSubtask: true }));
+    }
+  }, [openAddUpdateTaskModal]);
 
   const handleCloseNewTaskModal = (e) => {
     if (e.target.ariaLabel === 'newTask-modal') {
@@ -74,6 +89,12 @@ function AddUpdateTaskModal({
               onChange={(e) => setFormTask({ ...formTask, [e.target.name]: e.target.value })}
             />
           </label>
+
+          <ListOfInputs
+            inputs={inputs}
+            setInputs={setInputs}
+            isSubtask
+          />
 
           <button
             type="submit"

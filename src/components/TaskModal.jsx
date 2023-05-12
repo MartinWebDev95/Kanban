@@ -44,7 +44,7 @@ function TaskModal({
             <SettingsModal
               openSettingsModal={openSettingsModal}
               setOpenSettingsModal={setOpenSettingsModal}
-              setOpenEditBoardModal={setOpenAddUpdateTaskModal}
+              setOpenEditModal={setOpenAddUpdateTaskModal}
               setOpenDeleteModal={setOpenDeleteModal}
               isTask
             />
@@ -64,6 +64,8 @@ function TaskModal({
         <AddUpdateTaskModal
           openAddUpdateTaskModal={openAddUpdateTaskModal}
           setOpenAddUpdateTaskModal={setOpenAddUpdateTaskModal}
+          task={task}
+          subtasks={subtasks}
           updating
         />
 
