@@ -11,9 +11,9 @@ function useTasksStatus({ openBoardModal, updating }) {
   if it is in update mode */
   useEffect(() => {
     if (updating) {
-      setInputs(getDefaultInputs(taskStatus));
+      setInputs(getDefaultInputs({ inputs: taskStatus, isSubtask: false }));
     } else {
-      setInputs(getDefaultInputs());
+      setInputs(getDefaultInputs({ inputs: [], isSubtask: false }));
     }
   }, [openBoardModal, selectedBoard]);
 
