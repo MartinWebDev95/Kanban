@@ -5,6 +5,7 @@ import ListOfSubtasks from './ListOfSubtasks';
 import SettingsModal from './SettingsModal';
 import AddUpdateTaskModal from './AddUpdateTaskModal';
 import DeleteModal from './DeleteModal';
+import CurrentStatus from './CurrentStatus';
 
 function TaskModal({
   openTaskModal, setOpenTaskModal, task, subtasks, setSubtasks,
@@ -57,6 +58,8 @@ function TaskModal({
               subtasks={subtasks}
               setSubtasks={setSubtasks}
             />
+
+            <CurrentStatus task={task} />
 
           </div>
         </div>
