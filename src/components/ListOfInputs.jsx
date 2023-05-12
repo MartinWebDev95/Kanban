@@ -22,6 +22,7 @@ function ListOfInputs({ inputs, setInputs, isSubtask = false }) {
         {
           idInput: generateInputId,
           nameInput: `subtask-${generateInputId}`,
+          doneInput: false,
           valueInput: '',
         },
       ]);
