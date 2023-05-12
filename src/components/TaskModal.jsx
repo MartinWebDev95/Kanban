@@ -59,7 +59,10 @@ function TaskModal({
               setSubtasks={setSubtasks}
             />
 
-            <CurrentStatus task={task} />
+            <CurrentStatus
+              task={task}
+              updating
+            />
 
           </div>
         </div>

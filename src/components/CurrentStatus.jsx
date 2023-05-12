@@ -1,10 +1,25 @@
 import useDatabaseContext from '../hooks/useDatabaseContext';
+import updateTaskStatus from '../services/updateTaskStatus';
 
-function CurrentStatus({ task = {} }) {
-  const { taskStatus } = useDatabaseContext();
+function CurrentStatus({ task = {}, updating = false }) {
+  const { taskStatus, tasks, setTasks } = useDatabaseContext();
 
-  const handleChangeStatus = () => {
+  const handleChangeStatus = async (e) => {
+    if (updating) {
+      // Update the tasks status in the database
+      await updateTaskStatus({ idTask: task.id, idStatus: Number(e.target.value) });
 
+      // Update the tasks status in the tasks state
+      const newTasksState = tasks.map((item) => {
+        if (item.id === task.id) {
+          return { ...item, status_id: Number(e.target.value) };
+        }
+
+        return item;
+      });
+
+      setTasks(newTasksState);
+    }
   };
 
   return (
@@ -22,7 +37,7 @@ function CurrentStatus({ task = {} }) {
         {taskStatus?.map((taskState) => (
           <option
             key={taskState.id}
-            defaultValue={taskState.id}
+            value={taskState.id}
             selected={taskState.id === task.status_id}
           >
             {taskState.name}
