@@ -94,6 +94,7 @@ function AddUpdateTaskModal({
             inputs={inputs}
             setInputs={setInputs}
             isSubtask
+            updating={updating}
           />
 
           <button
