@@ -67,6 +67,7 @@ function BoardModal({
           <ListOfInputs
             inputs={inputs}
             setInputs={setInputs}
+            updating
           />
 
           <button

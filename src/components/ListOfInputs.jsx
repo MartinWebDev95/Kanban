@@ -1,4 +1,12 @@
-function ListOfInputs({ inputs, setInputs, isSubtask = false }) {
+import useDatabaseContext from '../hooks/useDatabaseContext';
+import deleteTaskStatus from '../services/deleteTaskStatus';
+import getTaskStatusById from '../services/getTaskStatusById';
+
+function ListOfInputs({
+  inputs, setInputs, isSubtask = false, updating = false,
+}) {
+  const { selectedBoard, taskStatus, setTaskStatus } = useDatabaseContext();
+
   // Change the input value that has been written to
   const handleChange = (e) => {
     const newState = inputs.map((input) => {
@@ -39,8 +47,23 @@ function ListOfInputs({ inputs, setInputs, isSubtask = false }) {
   };
 
   // Delete inputs
-  const handleDelete = (id) => {
-    setInputs(inputs.filter((input) => input.idInput !== id));
+  const handleDelete = async (id) => {
+    // Delete status of the selected board
+    if (updating && !isSubtask) {
+      // Check if the deleted status input is in the database
+      const data = await getTaskStatusById({ boardId: selectedBoard?.id, statusId: Number(id) });
+
+      // If the deleted status input is in the database then the status is deleted from the database
+      if (data) {
+        await deleteTaskStatus({ statusId: Number(id) });
+
+        // The taskStatus state is updated without the deleted status
+        setTaskStatus(taskStatus.filter((status) => status.id !== id));
+      }
+
+      // The inputs state is updated without the deleted status input
+      setInputs(inputs.filter((input) => input.idInput !== id));
+    }
   };
 
   return (
