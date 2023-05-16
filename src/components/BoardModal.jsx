@@ -8,7 +8,9 @@ import useTasksStatus from '../hooks/useTasksStatus';
 function BoardModal({
   openBoardModal, setOpenBoardModal, updating = false,
 }) {
-  const { addOrUpdateBoards, nameBoard, setNameBoard } = useBoards({ openBoardModal, updating });
+  const {
+    addOrUpdateBoards, nameBoard, setNameBoard, selectedBoard,
+  } = useBoards({ openBoardModal, updating });
   const {
     addOrUpdateTasksStatus, inputs, setInputs,
   } = useTasksStatus({ openBoardModal, updating });
@@ -22,6 +24,8 @@ function BoardModal({
       await addOrUpdateTasksStatus({ boardId: newBoardId });
     } else {
       await addOrUpdateBoards();
+
+      await addOrUpdateTasksStatus({ boardId: selectedBoard.id });
     }
 
     setOpenBoardModal(false);
@@ -41,7 +45,7 @@ function BoardModal({
         onClick={handleCloseBoardModal}
       >
         <form
-          className="bg-white dark:bg-slate-800 rounded-md w-4/5 h-fit px-8 py-8 lg:w-2/5 flex flex-col gap-8 overflow-y-scroll scrollbar-hide"
+          className="bg-white dark:bg-slate-800 rounded-md w-4/5 h-full px-8 py-8 lg:w-2/5 flex flex-col gap-8 overflow-y-scroll scrollbar-hide"
           onSubmit={handleSubmit}
         >
           <h2 className="text-black dark:text-white font-semibold text-lg text-left">
@@ -67,7 +71,7 @@ function BoardModal({
           <ListOfInputs
             inputs={inputs}
             setInputs={setInputs}
-            updating
+            updating={updating}
           />
 
           <button
