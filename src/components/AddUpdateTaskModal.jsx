@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react';
 import ListOfInputs from './ListOfInputs';
 import getDefaultInputs from '../helpers/getDefaultInputs';
+import CurrentStatus from './CurrentStatus';
 
 function AddUpdateTaskModal({
   openAddUpdateTaskModal, setOpenAddUpdateTaskModal, task = {}, subtasks = [], updating = false,
@@ -95,6 +96,11 @@ function AddUpdateTaskModal({
             setInputs={setInputs}
             isSubtask
             updating={updating}
+          />
+
+          <CurrentStatus
+            task={task}
+            updating
           />
 
           <button
