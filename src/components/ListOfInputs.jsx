@@ -1,9 +1,11 @@
 import useDatabaseContext from '../hooks/useDatabaseContext';
+import deleteSubtask from '../services/deleteSubtask';
 import deleteTaskStatus from '../services/deleteTaskStatus';
+import getSubtaskById from '../services/getSubtaskById';
 import getTaskStatusById from '../services/getTaskStatusById';
 
 function ListOfInputs({
-  inputs, setInputs, isSubtask = false, updating,
+  inputs, setInputs, setSubtasks = null, isSubtask = false, updating,
 }) {
   const { selectedBoard, taskStatus, setTaskStatus } = useDatabaseContext();
 
@@ -59,6 +61,20 @@ function ListOfInputs({
 
         // The taskStatus state is updated without the deleted status
         setTaskStatus(taskStatus.filter((status) => status.id !== id));
+      }
+    }
+
+    if (updating && isSubtask) {
+      // Check if the deleted subtask input is in the database
+      const data = await getSubtaskById({ idSubtask: Number(id) });
+
+      // If the deleted subtask input is in the database then the subtask
+      // is deleted from the database
+      if (data) {
+        await deleteSubtask({ idSubtask: Number(id) });
+
+        // The subtask state is updated without the deleted subtask
+        setSubtasks((prevState) => prevState.filter((subtask) => subtask.id !== id));
       }
     }
 

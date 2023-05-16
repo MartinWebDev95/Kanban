@@ -72,6 +72,7 @@ function TaskModal({
           setOpenAddUpdateTaskModal={setOpenAddUpdateTaskModal}
           task={task}
           subtasks={subtasks}
+          setSubtasks={setSubtasks}
           updating
         />
 

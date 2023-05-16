@@ -7,7 +7,12 @@ import getDefaultInputs from '../helpers/getDefaultInputs';
 import CurrentStatus from './CurrentStatus';
 
 function AddUpdateTaskModal({
-  openAddUpdateTaskModal, setOpenAddUpdateTaskModal, task = {}, subtasks = [], updating = false,
+  openAddUpdateTaskModal,
+  setOpenAddUpdateTaskModal,
+  task = {},
+  subtasks = [],
+  setSubtasks = null,
+  updating = false,
 }) {
   const [inputs, setInputs] = useState([]);
   const [formTask, setFormTask] = useState({
@@ -94,6 +99,7 @@ function AddUpdateTaskModal({
           <ListOfInputs
             inputs={inputs}
             setInputs={setInputs}
+            setSubtasks={setSubtasks}
             isSubtask
             updating={updating}
           />
