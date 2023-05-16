@@ -25,6 +25,9 @@ function useBoards({ openBoardModal, updating }) {
       // Add new board to the database
       const newBoard = await addBoard({ boardName: nameBoard, idUser: currentUser.id });
 
+      // Select the new board added
+      setSelectedBoard(newBoard[0]);
+
       // Update the board state with the new board
       setBoards((prevState) => prevState.concat(newBoard[0]));
 
@@ -36,26 +39,28 @@ function useBoards({ openBoardModal, updating }) {
       // Update the board name in the database
       await updateBoardName({ idBoard: selectedBoard.id, newBoardName: nameBoard });
 
-      // Update the board name in the boards state
       const newBoardsState = boards.map((item) => {
         if (item.id === selectedBoard.id) {
-          return { ...item, name: nameBoard };
+          const newBoardName = { ...item, name: nameBoard };
+
+          // Select the board just updated
+          setSelectedBoard(newBoardName);
+
+          return newBoardName;
         }
 
         return item;
       });
 
+      // Update the board name in the boards state
       setBoards(newBoardsState);
-
-      // Change the first board state to selected
-      setSelectedBoard(boards[0]);
     }
 
     return null;
   }, [currentUser, nameBoard]);
 
   return {
-    addOrUpdateBoards, nameBoard, setNameBoard,
+    addOrUpdateBoards, nameBoard, setNameBoard, selectedBoard,
   };
 }
 
