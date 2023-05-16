@@ -3,14 +3,14 @@ import deleteTaskStatus from '../services/deleteTaskStatus';
 import getTaskStatusById from '../services/getTaskStatusById';
 
 function ListOfInputs({
-  inputs, setInputs, isSubtask = false, updating = false,
+  inputs, setInputs, isSubtask = false, updating,
 }) {
   const { selectedBoard, taskStatus, setTaskStatus } = useDatabaseContext();
 
   // Change the input value that has been written to
   const handleChange = (e) => {
     const newState = inputs.map((input) => {
-      if (input.idInput === e.target.id) {
+      if (input.idInput.toString() === e.target.id) {
         return { ...input, valueInput: e.target.value };
       }
 
@@ -60,10 +60,10 @@ function ListOfInputs({
         // The taskStatus state is updated without the deleted status
         setTaskStatus(taskStatus.filter((status) => status.id !== id));
       }
-
-      // The inputs state is updated without the deleted status input
-      setInputs(inputs.filter((input) => input.idInput !== id));
     }
+
+    // The inputs state is updated without the deleted status input
+    setInputs(inputs.filter((input) => input.idInput !== id));
   };
 
   return (
