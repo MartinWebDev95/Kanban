@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import ListOfInputs from './ListOfInputs';
 import getDefaultInputs from '../helpers/getDefaultInputs';
 import CurrentStatus from './CurrentStatus';
+import useDatabaseContext from '../hooks/useDatabaseContext';
+import addTask from '../services/addTask';
 
 function AddUpdateTaskModal({
   openAddUpdateTaskModal,
@@ -14,10 +16,12 @@ function AddUpdateTaskModal({
   setSubtasks = null,
   updating = false,
 }) {
+  const { selectedBoard, setTasks } = useDatabaseContext();
   const [inputs, setInputs] = useState([]);
   const [formTask, setFormTask] = useState({
     taskName: '',
     taskDescription: '',
+    taskStatus: 1,
   });
 
   useEffect(() => {
@@ -26,6 +30,7 @@ function AddUpdateTaskModal({
       setFormTask({
         taskName: task.name,
         taskDescription: task.description,
+        taskStatus: task.status_id,
       });
     } else {
       setInputs(getDefaultInputs({ inputs: [], isSubtask: true }));
@@ -39,12 +44,23 @@ function AddUpdateTaskModal({
       setFormTask({
         taskName: '',
         taskDescription: '',
+        taskStatus: 1,
       });
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    if (!updating) {
+      // Add new task
+      const newTaskAdded = await addTask({ boardId: selectedBoard.id, taskInfo: formTask });
+
+      // Add the new task in tasks state
+      setTasks((prevTasks) => prevTasks.concat(newTaskAdded[0]));
+    }
+
+    setOpenAddUpdateTaskModal(false);
   };
 
   return (
@@ -106,7 +122,9 @@ function AddUpdateTaskModal({
 
           <CurrentStatus
             task={task}
-            updating
+            formTask={formTask}
+            setFormTask={setFormTask}
+            updating={updating}
           />
 
           <button
