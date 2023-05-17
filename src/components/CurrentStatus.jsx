@@ -1,7 +1,9 @@
 import useDatabaseContext from '../hooks/useDatabaseContext';
 import updateTaskStatus from '../services/updateTaskStatus';
 
-function CurrentStatus({ task = {}, updating = false }) {
+function CurrentStatus({
+  task = {}, formTask = {}, setFormTask = null, updating = false,
+}) {
   const { taskStatus, tasks, setTasks } = useDatabaseContext();
 
   const handleChangeStatus = async (e) => {
@@ -19,18 +21,21 @@ function CurrentStatus({ task = {}, updating = false }) {
       });
 
       setTasks(newTasksState);
+    } else {
+      // Get the status where the new task will appear
+      setFormTask({ ...formTask, [e.target.name]: e.target.value });
     }
   };
 
   return (
-    <label htmlFor="currentStatus" className="flex flex-col gap-2">
+    <label htmlFor="taskStatus" className="flex flex-col gap-2">
       <span className="text-gray-500 dark:text-white text-sm font-semibold">
         Current Status
       </span>
 
       <select
-        name="currentStatus"
-        id="currentStatus"
+        name="taskStatus"
+        id="taskStatus"
         onChange={handleChangeStatus}
         className="dark:text-white dark:bg-slate-800 text-black border-2 rounded-md py-2 px-2 border-gray-200 dark:border-gray-500 placeholder:text-sm text-sm font-normal"
       >
