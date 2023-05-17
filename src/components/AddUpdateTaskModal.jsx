@@ -7,6 +7,7 @@ import getDefaultInputs from '../helpers/getDefaultInputs';
 import CurrentStatus from './CurrentStatus';
 import useDatabaseContext from '../hooks/useDatabaseContext';
 import addTask from '../services/addTask';
+import addSubtasks from '../services/addSubtasks';
 
 function AddUpdateTaskModal({
   openAddUpdateTaskModal,
@@ -56,11 +57,27 @@ function AddUpdateTaskModal({
       // Add new task
       const newTaskAdded = await addTask({ boardId: selectedBoard.id, taskInfo: formTask });
 
+      // Add subtasks
+      const newSubtasks = inputs.map(({ valueInput, doneInput }) => (
+        { name: valueInput, done: doneInput, task_id: newTaskAdded[0].id }
+      ));
+
+      // Add the new subtasks that belong to the new task to the database
+      await addSubtasks({ subtasks: newSubtasks });
+
       // Add the new task in tasks state
       setTasks((prevTasks) => prevTasks.concat(newTaskAdded[0]));
     }
 
+    // Close the modal
     setOpenAddUpdateTaskModal(false);
+
+    // Reset the form task values
+    setFormTask({
+      taskName: '',
+      taskDescription: '',
+      taskStatus: 1,
+    });
   };
 
   return (
