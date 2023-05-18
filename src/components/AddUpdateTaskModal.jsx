@@ -25,6 +25,7 @@ function AddUpdateTaskModal({
     openAddUpdateTaskModal,
     updating,
     subtasks,
+    setSubtasks,
   });
 
   const handleCloseNewTaskModal = (e) => {
@@ -48,6 +49,8 @@ function AddUpdateTaskModal({
       await addOrUpdateSubtasks({ taskId: newTaskId });
     } else {
       await addOrUpdateTasks();
+
+      await addOrUpdateSubtasks({ taskId: task.id });
     }
 
     // Close the modal
