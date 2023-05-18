@@ -1,13 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import { useEffect, useState } from 'react';
 import ListOfInputs from './ListOfInputs';
-import getDefaultInputs from '../helpers/getDefaultInputs';
 import CurrentStatus from './CurrentStatus';
-import useDatabaseContext from '../hooks/useDatabaseContext';
-import addTask from '../services/addTask';
-import addSubtasks from '../services/addSubtasks';
+import useTask from '../hooks/useTask';
+import useSubtask from '../hooks/useSubtask';
 
 function AddUpdateTaskModal({
   openAddUpdateTaskModal,
@@ -17,26 +14,16 @@ function AddUpdateTaskModal({
   setSubtasks = null,
   updating = false,
 }) {
-  const { selectedBoard, setTasks } = useDatabaseContext();
-  const [inputs, setInputs] = useState([]);
-  const [formTask, setFormTask] = useState({
-    taskName: '',
-    taskDescription: '',
-    taskStatus: 1,
+  const { addOrUpdateTasks, formTask, setFormTask } = useTask({
+    openAddUpdateTaskModal,
+    task,
+    updating,
   });
-
-  useEffect(() => {
-    if (updating) {
-      setInputs(getDefaultInputs({ inputs: subtasks, isSubtask: true }));
-      setFormTask({
-        taskName: task.name,
-        taskDescription: task.description,
-        taskStatus: task.status_id,
-      });
-    } else {
-      setInputs(getDefaultInputs({ inputs: [], isSubtask: true }));
-    }
-  }, [openAddUpdateTaskModal]);
+  const { addOrUpdateSubtasks, inputs, setInputs } = useSubtask({
+    openAddUpdateTaskModal,
+    updating,
+    subtasks,
+  });
 
   const handleCloseNewTaskModal = (e) => {
     if (e.target.ariaLabel === 'newTask-modal') {
@@ -54,19 +41,9 @@ function AddUpdateTaskModal({
     e.preventDefault();
 
     if (!updating) {
-      // Add new task
-      const newTaskAdded = await addTask({ boardId: selectedBoard.id, taskInfo: formTask });
+      const newTaskId = await addOrUpdateTasks();
 
-      // Add subtasks
-      const newSubtasks = inputs.map(({ valueInput, doneInput }) => (
-        { name: valueInput, done: doneInput, task_id: newTaskAdded[0].id }
-      ));
-
-      // Add the new subtasks that belong to the new task to the database
-      await addSubtasks({ subtasks: newSubtasks });
-
-      // Add the new task in tasks state
-      setTasks((prevTasks) => prevTasks.concat(newTaskAdded[0]));
+      await addOrUpdateSubtasks({ taskId: newTaskId });
     }
 
     // Close the modal
