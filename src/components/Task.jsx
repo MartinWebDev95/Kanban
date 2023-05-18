@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TaskModal from './TaskModal';
-import useSubtask from '../hooks/useSubtask';
+import getSubtasks from '../services/getSubtasks';
 
 function Task({ task }) {
   const [openTaskModal, setOpenTaskModal] = useState(false);
-  const { subtasks, setSubtasks } = useSubtask({ task });
+  const [subtasks, setSubtasks] = useState([]);
+
+  useEffect(() => {
+    getSubtasks({ taskId: task.id })
+      .then((subtask) => {
+        setSubtasks(subtask);
+      });
+  }, []);
 
   return (
     <>
