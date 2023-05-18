@@ -14,7 +14,9 @@ function AddUpdateTaskModal({
   setSubtasks = null,
   updating = false,
 }) {
-  const { addOrUpdateTasks, formTask, setFormTask } = useTask({
+  const {
+    addOrUpdateTasks, formTask, setFormTask,
+  } = useTask({
     openAddUpdateTaskModal,
     task,
     updating,
@@ -44,6 +46,8 @@ function AddUpdateTaskModal({
       const newTaskId = await addOrUpdateTasks();
 
       await addOrUpdateSubtasks({ taskId: newTaskId });
+    } else {
+      await addOrUpdateTasks();
     }
 
     // Close the modal
@@ -84,7 +88,7 @@ function AddUpdateTaskModal({
               id="taskName"
               placeholder="e.g. Take coffe break"
               value={formTask.taskName}
-              className="dark:bg-slate-800 border-2 rounded-md py-2 px-2 border-gray-200 dark:border-gray-500 placeholder:text-sm dark:text-white text-black font-normal"
+              className="border-gray-200 dark:border-gray-500 dark:bg-slate-800 border-2 rounded-md py-2 px-2 placeholder:text-sm dark:text-white text-black font-normal"
               onChange={(e) => setFormTask({ ...formTask, [e.target.name]: e.target.value })}
             />
           </label>

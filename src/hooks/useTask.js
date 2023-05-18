@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import addTask from '../services/addTask';
 import useDatabaseContext from './useDatabaseContext';
+import updateTask from '../services/updateTask';
 
 function useTask({ openAddUpdateTaskModal, task, updating }) {
-  const { selectedBoard, setTasks } = useDatabaseContext();
+  const { selectedBoard, tasks, setTasks } = useDatabaseContext();
   const [formTask, setFormTask] = useState({
     taskName: '',
     taskDescription: '',
@@ -32,10 +33,32 @@ function useTask({ openAddUpdateTaskModal, task, updating }) {
       return newTaskAdded[0].id;
     }
 
+    if ((task.name !== formTask.taskName) || (task.description !== formTask.taskDescription)) {
+      // Update task in the database
+      await updateTask({ idTask: task.id, newTask: formTask });
+
+      const newTaskState = tasks.map((item) => {
+        if (item.id === task.id) {
+          return {
+            ...item,
+            name: formTask.taskName,
+            description: formTask.taskDescription,
+          };
+        }
+
+        return item;
+      });
+
+      // Update the task name in the tasks state
+      setTasks(newTaskState);
+    }
+
     return null;
   }, [formTask]);
 
-  return { addOrUpdateTasks, formTask, setFormTask };
+  return {
+    addOrUpdateTasks, formTask, setFormTask,
+  };
 }
 
 export default useTask;
