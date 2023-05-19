@@ -71,10 +71,10 @@ function Header({ showSidebar, setShowSidebar }) {
 
             <button
               type="button"
-              className="p-1"
+              className="w-5 h-5 lg:w-4 lg:h-4 flex justify-center"
               onClick={() => setOpenSettingsModal(!openSettingsModal)}
             >
-              <img src="/assets/icon-vertical-ellipsis.svg" alt="Menu board" className="w-1" />
+              <img src="/assets/icon-vertical-ellipsis.svg" alt="Menu board" />
             </button>
 
             <SettingsModal

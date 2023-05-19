@@ -40,7 +40,7 @@ function BoardModal({
   return (
     openBoardModal && (
       <div
-        className="grid place-items-center bg-black/50 absolute z-30 top-0 left-0 bottom-0 w-screen h-screen py-8"
+        className="grid place-items-center bg-black/50 absolute z-30 top-0 left-0 bottom-0 w-screen h-screen py-16"
         aria-label="newBoard-modal"
         onClick={handleCloseBoardModal}
       >
