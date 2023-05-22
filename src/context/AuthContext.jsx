@@ -69,6 +69,10 @@ function AuthProvider({ children }) {
     }
   };
 
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+  };
+
   const value = useMemo(() => ({
     currentUser,
     setCurrentUser,
@@ -77,6 +81,7 @@ function AuthProvider({ children }) {
     handleLogin,
     handleLoginWithGoogle,
     handleLoginWithGithub,
+    handleLogout,
   }), [currentUser, inputEmail]);
 
   return (

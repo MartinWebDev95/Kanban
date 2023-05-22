@@ -1,8 +1,7 @@
-import supabase from '../../supabase';
 import useAuthContext from '../hooks/useAuthContext';
 
 function Logout() {
-  const { currentUser } = useAuthContext();
+  const { currentUser, handleLogout } = useAuthContext();
 
   return (
     currentUser && (
@@ -15,7 +14,7 @@ function Logout() {
 
         <button
           type="button"
-          onClick={async () => { await supabase.auth.signOut(); }}
+          onClick={handleLogout}
           className="group"
         >
           <svg fill="#828FA3" width="18px" height="18px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" className="group-hover:fill-indigo-700">
