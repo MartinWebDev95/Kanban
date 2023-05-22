@@ -73,7 +73,7 @@ function AddUpdateTaskModal({
       >
         <form
           action=""
-          className="bg-white dark:bg-slate-800 rounded-md w-4/5 h-full px-8 py-8 lg:w-2/5 flex flex-col gap-8 overflow-y-scroll scrollbar-hide"
+          className="bg-white dark:bg-slate-800 rounded-md w-11/12 md:w-4/5 lg:w-2/5 h-full p-7 flex flex-col gap-6 overflow-y-scroll scrollbar-hide"
           onSubmit={handleSubmit}
         >
           <h2 className="text-black dark:text-white font-semibold text-lg">

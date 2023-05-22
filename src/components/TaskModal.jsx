@@ -24,13 +24,13 @@ function TaskModal({
     openTaskModal && (
       <>
         <div
-          className="grid place-items-center bg-black/50 absolute z-30 top-0 left-0 bottom-0 w-screen h-screen py-16"
+          className="grid place-items-center bg-black/50 absolute z-30 top-0 left-0 bottom-0 w-full h-full"
           aria-label="task-modal"
           onClick={handleCloseTaskModal}
         >
-          <div className={`bg-white dark:bg-slate-800 rounded-md w-4/5 px-8 py-8 lg:w-2/5 flex flex-col gap-8 overflow-y-scroll scrollbar-hide tracking-normal ${(subtasks.length >= 3 && task.description) ? 'h-full' : 'h-fit'} lg:h-auto"`}>
+          <div className="bg-white dark:bg-slate-800 rounded-md w-11/12 md:w-4/5 lg:w-2/5 p-6 flex flex-col gap-6 tracking-normal h-fit">
             <div className="flex justify-between items-center gap-2">
-              <h2 className="dark:text-white text-black font-semibold text-lg lg:text-xl w-5/6 group-hover:text-indigo-700 transition-all duration-150 ease-in-out">
+              <h2 className="dark:text-white text-black font-semibold text-base lg:text-lg w-5/6 group-hover:text-indigo-700 transition-all duration-150 ease-in-out">
                 {task.name}
               </h2>
 
@@ -53,7 +53,7 @@ function TaskModal({
             />
 
             {task.description !== null && (
-            <p className="text-gray-500 font-semibold text-sm">{task.description}</p>
+            <p className="text-gray-500 font-semibold text-xs lg:text-sm">{task.description}</p>
             )}
 
             <ListOfSubtasks

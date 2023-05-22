@@ -47,7 +47,7 @@ function DeleteModal({
         aria-label="delete-modal"
         onClick={handleCloseDeleteModal}
       >
-        <div className=" w-3/4 lg:w-2/5 bg-white dark:bg-slate-800 py-6 px-8 rounded-lg">
+        <div className="w-11/12 md:w-4/5 lg:w-2/5 bg-white dark:bg-slate-800 py-6 px-8 rounded-lg">
 
           {isTask ? (
             <>
