@@ -16,8 +16,8 @@ function Header({ showSidebar, setShowSidebar }) {
   const [openAddUpdateTaskModal, setOpenAddUpdateTaskModal] = useState(false);
 
   return (
-    <header className="bg-white dark:bg-slate-800 p-4 lg:px-6 fixed z-20 w-full">
-      <div className="flex justify-between items-center gap-4 lg:gap-24">
+    <header className="bg-white dark:bg-slate-800 px-4 lg:px-6 fixed z-20 w-full top-0 h-16 lg:h-20">
+      <div className="flex justify-between items-center gap-4 lg:gap-24 h-full">
         {theme === 'dark'
           ? (
             <picture>
@@ -38,7 +38,7 @@ function Header({ showSidebar, setShowSidebar }) {
             onClick={() => setShowSidebar(!showSidebar)}
           >
             <span>
-              {selectedBoard.name}
+              {Object.entries(selectedBoard).length > 0 && selectedBoard.name}
             </span>
 
             {showSidebar

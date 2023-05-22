@@ -21,26 +21,30 @@ function Sidebar({ showSidebar, setShowSidebar }) {
     <aside
       className={` 
         ${showSidebar
-        ? 'grid place-items-center bg-black/50 absolute w-full lg:block lg:static lg:place-items-end'
-        : 'hidden lg:block'}
+        ? 'grid place-items-center bg-black/50 absolute w-full lg:flex lg:static lg:place-items-end'
+        : 'hidden lg:flex'}
         ${hideSidebar
           ? 'lg:w-[0vw]'
-          : 'lg:block lg:w-[20vw]'} 
-        top-0 left-0 h-screen
+          : 'lg:flex lg:w-[20vw]'} 
+        top-0 left-0 h-full
       `}
       aria-label="sidebar-modal"
       onClick={handleCloseModalSidebar}
     >
-      <div className="bg-white dark:bg-slate-800 rounded-xl w-4/5 py-4 lg:w-full lg:h-screen lg:rounded-none lg:flex lg:flex-col lg:justify-between">
-        <h2 className="uppercase text-gray-500 font-semibold ml-6 text-sm tracking-widest lg:mt-6 lg:mb-2 overflow-hidden">
-          {`All boards (${boards?.length})`}
-        </h2>
+      <div className="bg-white dark:bg-slate-800 rounded-xl w-4/5 pb-4 lg:w-full lg:h-full lg:rounded-none lg:flex lg:flex-col lg:justify-between">
+        <div className="pt-4">
+          <h2 className="uppercase text-gray-500 font-semibold ml-6 text-sm tracking-widest overflow-hidden">
+            {`All boards (${boards?.length})`}
+          </h2>
 
-        <div className={`lg:h-1/2 overflow-y-scroll scrollbar-hide ${hideSidebar && 'lg:overflow-hidden'}`}>
-          <ListOfBoards />
+          <div
+            className={`overflow-y-scroll scrollbar-hide ${hideSidebar && 'lg:overflow-hidden'}`}
+          >
+            <ListOfBoards />
+          </div>
         </div>
 
-        <div className={`w-full mt-4 lg:mt-0 lg:h-1/2 lg:flex lg:flex-col lg:justify-end lg:mb-16 ${hideSidebar && 'lg:overflow-hidden'}`}>
+        <div className={`w-full mt-4 lg:mt-0 lg:flex lg:flex-col lg:justify-end ${hideSidebar && 'lg:overflow-hidden'}`}>
 
           <HideSidebar hideSidebar={hideSidebar} setHideSidebar={setHideSidebar} />
 

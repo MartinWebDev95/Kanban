@@ -10,7 +10,7 @@ function Home() {
     <>
       <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
 
-      <main className="flex justify-between pt-16">
+      <main className="flex items-start h-full">
         <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
 
         <SectionTasks />
