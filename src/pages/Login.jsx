@@ -7,7 +7,7 @@ function Login() {
   } = useAuthContext();
 
   return (
-    <main className="grid place-content-center place-items-center h-screen w-full px-8">
+    <main className="grid place-content-center place-items-center w-full px-8">
       <section className="bg-white dark:bg-slate-800 p-8 rounded-md shadow-xl">
         <h1 className="text-center text-black dark:text-white font-semibold text-2xl">
           Kanban Task Management
