@@ -26,7 +26,7 @@ function SectionTasks() {
   }, [selectedBoard]);
 
   return (
-    <section className="bg-gray-100 dark:bg-slate-900 p-4 w-full h-full scrollbar-hide overflow-y-scroll overflow-x-scroll">
+    <section className="bg-gray-100 dark:bg-slate-900 px-4 pt-4 w-full h-full scrollbar-hide overflow-y-scroll overflow-x-scroll">
 
       {loading
         ? (<Spinner />)
