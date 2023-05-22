@@ -37,7 +37,7 @@ function CurrentStatus({
         name="taskStatus"
         id="taskStatus"
         onChange={handleChangeStatus}
-        className="dark:text-white dark:bg-slate-800 text-black border-2 rounded-md py-2 px-2 border-gray-200 dark:border-gray-500 placeholder:text-sm text-sm font-normal"
+        className="dark:text-white dark:bg-slate-800 text-black border-2 rounded-md border-gray-200 dark:border-gray-500 placeholder:text-sm text-sm font-normal w-full appearance-none p-2 bg-[url('/assets/icon-chevron-down.svg')] bg-no-repeat bg-right bg-origin-content"
       >
         {taskStatus?.map((taskState) => (
           <option
@@ -45,7 +45,10 @@ function CurrentStatus({
             value={taskState.id}
             selected={taskState.id === task.status_id}
           >
-            {taskState.name}
+            <span>
+              {taskState.name}
+            </span>
+
           </option>
         ))}
       </select>
