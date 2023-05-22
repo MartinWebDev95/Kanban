@@ -3,7 +3,7 @@ import useAuthContext from '../hooks/useAuthContext';
 
 function Login() {
   const {
-    inputEmail, setInputEmail, handleLogin, handleLoginWithGoogle,
+    inputEmail, setInputEmail, handleLogin, handleLoginWithGoogle, handleLoginWithGithub,
   } = useAuthContext();
 
   return (
@@ -52,6 +52,15 @@ function Login() {
         >
           <img src="/assets/icon-google.svg" alt="Login with Google" className="w-7 h-7" />
           Sign in with Google
+        </button>
+
+        <button
+          type="button"
+          className="bg-black rounded-full p-2 hover:bg-zinc-900 text-white font-semibold transition-all duration-200 ease-in-out w-full mt-4 flex items-center justify-center gap-4 lg:mx-auto"
+          onClick={handleLoginWithGithub}
+        >
+          <img src="/assets/logo-github.png" alt="Login with Github" className="w-7 h-7" />
+          Sign in with Github
         </button>
 
         <div className="lg:mx-auto mt-4">

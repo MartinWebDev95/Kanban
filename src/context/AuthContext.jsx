@@ -58,8 +58,25 @@ function AuthProvider({ children }) {
     }
   };
 
+  // Sign in with Github OAuth
+  const handleLoginWithGithub = async () => {
+    try {
+      await supabase.auth.signInWithOAuth({
+        provider: 'github',
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
   const value = useMemo(() => ({
-    currentUser, setCurrentUser, inputEmail, setInputEmail, handleLogin, handleLoginWithGoogle,
+    currentUser,
+    setCurrentUser,
+    inputEmail,
+    setInputEmail,
+    handleLogin,
+    handleLoginWithGoogle,
+    handleLoginWithGithub,
   }), [currentUser, inputEmail]);
 
   return (
