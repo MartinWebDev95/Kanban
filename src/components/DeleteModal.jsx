@@ -9,7 +9,7 @@ function DeleteModal({
   openDeleteModal, setOpenDeleteModal, task = {}, isTask = false,
 }) {
   const {
-    selectedBoard, setSelectedBoard, boards, setBoards, tasks, setTasks,
+    selectedBoard, setSelectedBoard, boards, setBoards, tasks, setTasks, setTaskStatus,
   } = useDatabaseContext();
 
   const handleDelete = async () => {
@@ -24,10 +24,20 @@ function DeleteModal({
       await deleteBoard(selectedBoard);
 
       // Update the boards state without the board just deleted
-      setBoards(boards.filter((board) => board.id !== selectedBoard.id));
+      const remainingBoards = boards.filter((board) => board.id !== selectedBoard.id);
 
-      // Select the first board of the list
-      setSelectedBoard(boards[0]);
+      setBoards(remainingBoards);
+
+      // If there are boards remaining, change the selected board to the first
+      // in the list of boards, in case there are no boards remaining, reset
+      // the selected board state to null and remove the task status of the
+      // board just deleted
+      if (remainingBoards.length > 0) {
+        setSelectedBoard(boards[0]);
+      } else {
+        setSelectedBoard(null);
+        setTaskStatus([]);
+      }
     }
 
     // Close delete modal after the operation
