@@ -38,7 +38,7 @@ function Header({ showSidebar, setShowSidebar }) {
             onClick={() => setShowSidebar(!showSidebar)}
           >
             <span>
-              {Object.entries(selectedBoard).length > 0 && selectedBoard.name}
+              {selectedBoard && selectedBoard.name}
             </span>
 
             {showSidebar
@@ -57,8 +57,8 @@ function Header({ showSidebar, setShowSidebar }) {
 
             <button
               type="button"
-              className="bg-indigo-700 rounded-full text-white font-semibold px-4 py-2 flex items-center gap-2 text-xl lg:text-lg lg:hover:bg-indigo-500 transition-all duration-300 ease-in-out"
-              onClick={() => setOpenAddUpdateTaskModal(true)}
+              className={`${!selectedBoard ? 'bg-indigo-900 cursor-not-allowed' : 'bg-indigo-700 lg:hover:bg-indigo-500 transition-all duration-300 ease-in-out'} rounded-full text-white font-semibold px-4 py-2 flex items-center gap-2 text-xl lg:text-lg`}
+              onClick={() => selectedBoard && setOpenAddUpdateTaskModal(true)}
             >
               <span>
                 <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
@@ -71,8 +71,8 @@ function Header({ showSidebar, setShowSidebar }) {
 
             <button
               type="button"
-              className="w-5 h-5 lg:w-4 lg:h-4 flex justify-center"
-              onClick={() => setOpenSettingsModal(!openSettingsModal)}
+              className={`w-5 h-5 lg:w-4 lg:h-4 flex justify-center ${!selectedBoard ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+              onClick={() => selectedBoard && setOpenSettingsModal(!openSettingsModal)}
             >
               <img src="/assets/icon-vertical-ellipsis.svg" alt="Menu board" />
             </button>
