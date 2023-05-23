@@ -43,7 +43,7 @@ function ListOfSubtasks({ subtasks, setSubtasks }) {
                 id={`${subtask.id}`}
                 onClick={handleCheckedSubtask}
                 checked={subtask.done}
-                className="w-3 h-3 lg:w-4 lg:h-4"
+                className="w-4 h-4"
                 readOnly
               />
 
