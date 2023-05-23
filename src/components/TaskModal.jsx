@@ -28,8 +28,8 @@ function TaskModal({
           aria-label="task-modal"
           onClick={handleCloseTaskModal}
         >
-          <div className="bg-white dark:bg-slate-800 rounded-md w-11/12 md:w-4/5 lg:w-2/5 p-6 flex flex-col gap-6 tracking-normal h-fit">
-            <div className="flex justify-between items-center gap-2">
+          <div className="bg-white dark:bg-slate-800 rounded-md w-11/12 md:w-4/5 lg:w-2/5 p-6 flex flex-col gap-6 tracking-normal h-fit relative">
+            <div className="flex justify-between items-center gap-2 relative">
               <h2 className="dark:text-white text-black font-semibold text-base lg:text-lg w-5/6 group-hover:text-indigo-700 transition-all duration-150 ease-in-out">
                 {task.name}
               </h2>
@@ -42,15 +42,15 @@ function TaskModal({
                 <img src="/assets/icon-vertical-ellipsis.svg" alt="Menu task" />
 
               </button>
-            </div>
 
-            <SettingsModal
-              openSettingsModal={openSettingsModal}
-              setOpenSettingsModal={setOpenSettingsModal}
-              setOpenEditModal={setOpenAddUpdateTaskModal}
-              setOpenDeleteModal={setOpenDeleteModal}
-              isTask
-            />
+              <SettingsModal
+                openSettingsModal={openSettingsModal}
+                setOpenSettingsModal={setOpenSettingsModal}
+                setOpenEditModal={setOpenAddUpdateTaskModal}
+                setOpenDeleteModal={setOpenDeleteModal}
+                isTask
+              />
+            </div>
 
             {task.description !== null && (
             <p className="text-gray-500 font-semibold text-xs lg:text-sm">{task.description}</p>
