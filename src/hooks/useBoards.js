@@ -3,18 +3,19 @@ import useAuthContext from './useAuthContext';
 import useDatabaseContext from './useDatabaseContext';
 import addBoard from '../services/addBoard';
 import updateBoardName from '../services/updateBoardName';
+import deleteBoard from '../services/deleteBoard';
 
-function useBoards({ openBoardModal, updating }) {
+function useBoards({ openBoardModal, updating } = {}) {
   const { currentUser } = useAuthContext();
   const {
-    selectedBoard, setSelectedBoard, boards, setBoards,
+    selectedBoard, setSelectedBoard, boards, setBoards, setTaskStatus,
   } = useDatabaseContext();
   const [nameBoard, setNameBoard] = useState('');
 
   // Write the board name in the input value if it is in update mode
   useEffect(() => {
     if (updating) {
-      setNameBoard(selectedBoard.name);
+      setNameBoard(selectedBoard && selectedBoard.name);
     } else {
       setNameBoard('');
     }
@@ -59,8 +60,29 @@ function useBoards({ openBoardModal, updating }) {
     return null;
   }, [currentUser, nameBoard]);
 
+  const handleDeleteBoard = async () => {
+    // Delete board in database
+    await deleteBoard(selectedBoard);
+
+    // Update the boards state without the board just deleted
+    const remainingBoards = boards.filter((board) => board.id !== selectedBoard.id);
+
+    setBoards(remainingBoards);
+
+    // If there are boards remaining, change the selected board to the first
+    // in the list of boards, in case there are no boards remaining, reset
+    // the selected board state to null and remove the task status of the
+    // board just deleted
+    if (remainingBoards.length > 0) {
+      setSelectedBoard(boards[0]);
+    } else {
+      setSelectedBoard(null);
+      setTaskStatus([]);
+    }
+  };
+
   return {
-    addOrUpdateBoards, nameBoard, setNameBoard, selectedBoard,
+    addOrUpdateBoards, nameBoard, setNameBoard, selectedBoard, handleDeleteBoard,
   };
 }
 
