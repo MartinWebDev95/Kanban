@@ -9,8 +9,9 @@ function BoardModal({
   openBoardModal, setOpenBoardModal, updating = false,
 }) {
   const {
-    addOrUpdateBoards, nameBoard, setNameBoard, selectedBoard,
+    addOrUpdateBoards, nameBoard, setNameBoard, selectedBoard, errorBoard, setErrorBoard,
   } = useBoards({ openBoardModal, updating });
+
   const {
     addOrUpdateTasksStatus, inputs, setInputs,
   } = useTasksStatus({ openBoardModal, updating });
@@ -28,7 +29,10 @@ function BoardModal({
       await addOrUpdateTasksStatus({ boardId: selectedBoard.id });
     }
 
-    setOpenBoardModal(false);
+    // If there is not error the modal is closed
+    if (errorBoard !== '') {
+      setOpenBoardModal(false);
+    }
   };
 
   const handleCloseBoardModal = (e) => {
@@ -53,9 +57,14 @@ function BoardModal({
           </h2>
 
           <label htmlFor="taskName" className="flex flex-col gap-2">
-            <span className="text-gray-500 dark:text-white text-sm font-semibold text-left">
-              Board Name
-            </span>
+            <p className={`${errorBoard ? 'text-red-600' : 'text-gray-500 dark:text-white'} text-sm font-semibold text-left flex justify-between`}>
+              <span>
+                Board Name
+              </span>
+              <span className={`${errorBoard ? 'block' : 'hidden'}`}>
+                {errorBoard}
+              </span>
+            </p>
 
             <input
               type="text"
@@ -63,8 +72,9 @@ function BoardModal({
               id="taskName"
               defaultValue={nameBoard}
               placeholder="e.g. Product Launch"
-              className="dark:bg-slate-800 border-2 rounded-md py-2 px-2 border-gray-200 dark:border-gray-500 text-black dark:text-white text-sm"
+              className={`dark:bg-slate-800 border-2 rounded-md py-2 px-2 ${errorBoard ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} text-black dark:text-white text-sm`}
               onChange={(e) => setNameBoard(e.target.value)}
+              onFocus={() => setErrorBoard('')}
             />
           </label>
 

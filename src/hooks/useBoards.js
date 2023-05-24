@@ -6,11 +6,13 @@ import updateBoardName from '../services/updateBoardName';
 import deleteBoard from '../services/deleteBoard';
 
 function useBoards({ openBoardModal, updating } = {}) {
+  const regexBoardName = /^[a-zA-Z]{3,10}$/;
   const { currentUser } = useAuthContext();
   const {
     selectedBoard, setSelectedBoard, boards, setBoards, setTaskStatus,
   } = useDatabaseContext();
   const [nameBoard, setNameBoard] = useState('');
+  const [errorBoard, setErrorBoard] = useState('');
 
   // Write the board name in the input value if it is in update mode
   useEffect(() => {
@@ -19,10 +21,14 @@ function useBoards({ openBoardModal, updating } = {}) {
     } else {
       setNameBoard('');
     }
+
+    if (errorBoard !== '') {
+      setErrorBoard('');
+    }
   }, [openBoardModal, selectedBoard]);
 
   const addOrUpdateBoards = useCallback(async () => {
-    if (!updating) {
+    if (!updating && regexBoardName.test(nameBoard)) {
       // Add new board to the database
       const newBoard = await addBoard({ boardName: nameBoard, idUser: currentUser.id });
 
@@ -36,7 +42,7 @@ function useBoards({ openBoardModal, updating } = {}) {
       return newBoard[0].id;
     }
 
-    if (selectedBoard.name !== nameBoard) {
+    if (selectedBoard?.name !== nameBoard && regexBoardName.test(nameBoard)) {
       // Update the board name in the database
       await updateBoardName({ idBoard: selectedBoard.id, newBoardName: nameBoard });
 
@@ -55,6 +61,8 @@ function useBoards({ openBoardModal, updating } = {}) {
 
       // Update the board name in the boards state
       setBoards(newBoardsState);
+    } else {
+      setErrorBoard('This is not a correct board name');
     }
 
     return null;
@@ -82,7 +90,13 @@ function useBoards({ openBoardModal, updating } = {}) {
   };
 
   return {
-    addOrUpdateBoards, nameBoard, setNameBoard, selectedBoard, handleDeleteBoard,
+    addOrUpdateBoards,
+    nameBoard,
+    setNameBoard,
+    selectedBoard,
+    handleDeleteBoard,
+    errorBoard,
+    setErrorBoard,
   };
 }
 
