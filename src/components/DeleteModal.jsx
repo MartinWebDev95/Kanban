@@ -1,46 +1,25 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
+import useBoards from '../hooks/useBoards';
 import useDatabaseContext from '../hooks/useDatabaseContext';
-import deleteBoard from '../services/deleteBoard';
-import deleteTask from '../services/deleteTask';
+import useTask from '../hooks/useTask';
 
 function DeleteModal({
   openDeleteModal, setOpenDeleteModal, task = {}, isTask = false,
 }) {
-  const {
-    selectedBoard, setSelectedBoard, boards, setBoards, tasks, setTasks, setTaskStatus,
-  } = useDatabaseContext();
+  const { selectedBoard } = useDatabaseContext();
+  const { handleDeleteBoard } = useBoards();
+  const { handleDeleteTask } = useTask({ task });
 
   const handleDelete = async () => {
     if (isTask) {
-      // Delete task in database
-      await deleteTask({ idTask: task.id });
-
-      // Update the task state without the task just deleted
-      setTasks(tasks.filter((item) => item.id !== task.id));
+      await handleDeleteTask();
     } else {
-      // Delete board in database
-      await deleteBoard(selectedBoard);
-
-      // Update the boards state without the board just deleted
-      const remainingBoards = boards.filter((board) => board.id !== selectedBoard.id);
-
-      setBoards(remainingBoards);
-
-      // If there are boards remaining, change the selected board to the first
-      // in the list of boards, in case there are no boards remaining, reset
-      // the selected board state to null and remove the task status of the
-      // board just deleted
-      if (remainingBoards.length > 0) {
-        setSelectedBoard(boards[0]);
-      } else {
-        setSelectedBoard(null);
-        setTaskStatus([]);
-      }
+      await handleDeleteBoard();
     }
 
-    // Close delete modal after the operation
+    // Close delete modal after the removal
     setOpenDeleteModal(false);
   };
 
