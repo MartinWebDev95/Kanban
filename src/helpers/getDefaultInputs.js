@@ -38,7 +38,12 @@ function getDefaultInputs({ inputs, isSubtask }) {
       {
         idInput: crypto.randomUUID(),
         nameInput: `taskStatus-${crypto.randomUUID()}`,
-        valueInput: '',
+        valueInput: 'Todo',
+      },
+      {
+        idInput: crypto.randomUUID(),
+        nameInput: `taskStatus-${crypto.randomUUID()}`,
+        valueInput: 'Done',
       },
     ]
   );
