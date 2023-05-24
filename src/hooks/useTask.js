@@ -2,8 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import addTask from '../services/addTask';
 import useDatabaseContext from './useDatabaseContext';
 import updateTask from '../services/updateTask';
+import deleteTask from '../services/deleteTask';
 
-function useTask({ openAddUpdateTaskModal, task, updating }) {
+function useTask({ openAddUpdateTaskModal, task, updating } = {}) {
   const { selectedBoard, tasks, setTasks } = useDatabaseContext();
   const [formTask, setFormTask] = useState({
     taskName: '',
@@ -56,8 +57,16 @@ function useTask({ openAddUpdateTaskModal, task, updating }) {
     return null;
   }, [formTask]);
 
+  const handleDeleteTask = async () => {
+    // Delete task in database
+    await deleteTask({ idTask: task.id });
+
+    // Update the task state without the task just deleted
+    setTasks(tasks.filter((item) => item.id !== task.id));
+  };
+
   return {
-    addOrUpdateTasks, formTask, setFormTask,
+    addOrUpdateTasks, formTask, setFormTask, handleDeleteTask,
   };
 }
 
