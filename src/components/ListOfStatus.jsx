@@ -4,7 +4,7 @@ import getTasks from '../services/getTasks';
 import ListOfTasks from './ListOfTasks';
 import getTasksNumberByStatus from '../helpers/getTasksNumberByStatus';
 import BoardModal from './BoardModal';
-import NoBoards from './NoBoards';
+import NoStatus from './NoStatus';
 
 function ListOfStatus({ taskStatus }) {
   const {
@@ -24,13 +24,13 @@ function ListOfStatus({ taskStatus }) {
   return (
     taskStatus.length === 0
       ? (
-        <NoBoards />
+        <NoStatus />
       ) : (
         <>
           <ul className="grid grid-flow-col auto-cols-min h-full w-full gap-4">
             {taskStatus.map((status) => (
               <li
-                key={status.id}
+                key={status?.id}
                 className="font-semibold text-gray-500 text-sm tracking-widest w-72"
               >
                 <span>
