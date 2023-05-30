@@ -1,14 +1,11 @@
 import supabase from '../../supabase';
 
-const addTaskStatus = async ({ taskStatus }) => {
+const addTaskStatus = async ({ statusName, boardId }) => {
   // Add new tasks status in the database that belong to the new board
   try {
-    const { data } = await supabase
+    await supabase
       .from('status')
-      .insert(taskStatus)
-      .select();
-
-    return data[0];
+      .insert({ name: statusName, board_id: boardId });
   } catch (error) {
     throw new Error(error.message);
   }
