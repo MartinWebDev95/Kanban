@@ -4,13 +4,13 @@ import useDatabaseContext from './useDatabaseContext';
 import updateTask from '../services/updateTask';
 import deleteTask from '../services/deleteTask';
 
-function useTask({ openAddUpdateTaskModal, task, updating } = {}) {
-  const { selectedBoard, tasks, setTasks } = useDatabaseContext();
-  const [formTask, setFormTask] = useState({
-    taskName: '',
-    taskDescription: '',
-    taskStatus: 1,
-  });
+function useTask({
+  openAddUpdateTaskModal, task, updating,
+} = {}) {
+  const {
+    selectedBoard, tasks, setTasks, taskStatus,
+  } = useDatabaseContext();
+  const [formTask, setFormTask] = useState({});
 
   useEffect(() => {
     if (updating) {
@@ -18,6 +18,12 @@ function useTask({ openAddUpdateTaskModal, task, updating } = {}) {
         taskName: task.name,
         taskDescription: task.description,
         taskStatus: task.status_id,
+      });
+    } else {
+      setFormTask({
+        taskName: '',
+        taskDescription: '',
+        taskStatus: taskStatus[0]?.id,
       });
     }
   }, [openAddUpdateTaskModal]);
