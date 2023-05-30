@@ -45,9 +45,8 @@ function CurrentStatus({
             value={taskState.id}
             selected={taskState.id === task.status_id}
           >
-            <span>
-              {taskState.name}
-            </span>
+
+            {taskState.name}
 
           </option>
         ))}
