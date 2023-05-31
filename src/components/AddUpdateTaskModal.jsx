@@ -5,6 +5,7 @@ import ListOfInputs from './ListOfInputs';
 import CurrentStatus from './CurrentStatus';
 import useTask from '../hooks/useTask';
 import useSubtask from '../hooks/useSubtask';
+import useDatabaseContext from '../hooks/useDatabaseContext';
 
 function AddUpdateTaskModal({
   openAddUpdateTaskModal,
@@ -14,6 +15,8 @@ function AddUpdateTaskModal({
   setSubtasks = null,
   updating = false,
 }) {
+  const { taskStatus } = useDatabaseContext();
+
   const {
     addOrUpdateTasks, formTask, setFormTask,
   } = useTask({
@@ -21,6 +24,7 @@ function AddUpdateTaskModal({
     task,
     updating,
   });
+
   const { addOrUpdateSubtasks, inputs, setInputs } = useSubtask({
     openAddUpdateTaskModal,
     updating,
@@ -35,7 +39,7 @@ function AddUpdateTaskModal({
       setFormTask({
         taskName: '',
         taskDescription: '',
-        taskStatus: 1,
+        taskStatus: taskStatus[0]?.id,
       });
     }
   };
@@ -60,7 +64,7 @@ function AddUpdateTaskModal({
     setFormTask({
       taskName: '',
       taskDescription: '',
-      taskStatus: 1,
+      taskStatus: taskStatus[0]?.id,
     });
   };
 
