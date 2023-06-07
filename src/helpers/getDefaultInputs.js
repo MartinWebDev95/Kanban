@@ -4,9 +4,9 @@ function getDefaultInputs({ inputs, isSubtask }) {
       return inputs.map((subtask) => (
         {
           idInput: subtask.id,
-          nameInput: `subtasks-${subtask.id}`,
-          doneInput: subtask.done,
-          valueInput: subtask.name,
+          name: `subtasks-${subtask.id}`,
+          done: subtask.done,
+          value: subtask.name,
         }
       ));
     }
@@ -15,9 +15,9 @@ function getDefaultInputs({ inputs, isSubtask }) {
       [
         {
           idInput: crypto.randomUUID(),
-          nameInput: `subtasks-${crypto.randomUUID()}`,
-          doneInput: false,
-          valueInput: '',
+          name: `subtasks-${crypto.randomUUID()}`,
+          done: false,
+          value: '',
         },
       ]
     );
@@ -27,8 +27,8 @@ function getDefaultInputs({ inputs, isSubtask }) {
     return inputs.map((status) => (
       {
         idInput: status.id,
-        nameInput: `taskStatus-${status.id}`,
-        valueInput: status.name,
+        name: `taskStatus-${status.id}`,
+        value: status.name,
       }
     ));
   }
@@ -37,13 +37,13 @@ function getDefaultInputs({ inputs, isSubtask }) {
     [
       {
         idInput: crypto.randomUUID(),
-        nameInput: `taskStatus-${crypto.randomUUID()}`,
-        valueInput: 'Todo',
+        name: `taskStatus-${crypto.randomUUID()}`,
+        value: 'Todo',
       },
       {
         idInput: crypto.randomUUID(),
-        nameInput: `taskStatus-${crypto.randomUUID()}`,
-        valueInput: 'Done',
+        name: `taskStatus-${crypto.randomUUID()}`,
+        value: 'Done',
       },
     ]
   );
