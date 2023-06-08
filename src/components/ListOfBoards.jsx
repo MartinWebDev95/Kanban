@@ -14,7 +14,7 @@ function ListOfBoards() {
         setBoards(items);
 
         // Change the first board state to selected
-        setSelectedBoard(items[0]);
+        setSelectedBoard(items[0] || null);
       });
   }, []);
 
