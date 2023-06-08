@@ -5,7 +5,6 @@ import ListOfInputs from './ListOfInputs';
 import CurrentStatus from './CurrentStatus';
 import useTask from '../hooks/useTask';
 import useSubtask from '../hooks/useSubtask';
-import useDatabaseContext from '../hooks/useDatabaseContext';
 
 function AddUpdateTaskModal({
   openAddUpdateTaskModal,
@@ -15,57 +14,62 @@ function AddUpdateTaskModal({
   setSubtasks = null,
   updating = false,
 }) {
-  const { taskStatus } = useDatabaseContext();
-
   const {
-    addOrUpdateTasks, formTask, setFormTask,
+    addOrUpdateTasks, handleSubmit, register, reset, control, errors,
   } = useTask({
     openAddUpdateTaskModal,
     task,
     updating,
   });
 
-  const { addOrUpdateSubtasks, inputs, setInputs } = useSubtask({
+  const {
+    addOrUpdateSubtasks, fields, append, remove,
+  } = useSubtask({
     openAddUpdateTaskModal,
     updating,
     subtasks,
     setSubtasks,
+    control,
   });
 
   const handleCloseNewTaskModal = (e) => {
     if (e.target.ariaLabel === 'newTask-modal') {
+      // Close the modal
       setOpenAddUpdateTaskModal(false);
 
-      setFormTask({
-        taskName: '',
-        taskDescription: '',
-        taskStatus: taskStatus[0]?.id,
-      });
+      // Reset the form task values
+      reset();
+
+      // Delete all subtasks
+      remove();
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
+    const {
+      taskName, taskDescription, taskStatus, subtasks,
+    } = data;
 
-    if (!updating) {
-      const newTaskId = await addOrUpdateTasks();
+    const newTaskId = await addOrUpdateTasks(
+      {
+        newTaskInfo: {
+          taskName,
+          taskDescription,
+          taskStatus: Number(taskStatus),
+        },
+      },
+    );
 
-      await addOrUpdateSubtasks({ taskId: newTaskId });
-    } else {
-      await addOrUpdateTasks();
+    await addOrUpdateSubtasks({
+      newSubtasksInputs: subtasks,
+      taskId: !updating ? newTaskId : task.id,
+    });
 
-      await addOrUpdateSubtasks({ taskId: task.id });
-    }
-
-    // Close the modal
     setOpenAddUpdateTaskModal(false);
 
-    // Reset the form task values
-    setFormTask({
-      taskName: '',
-      taskDescription: '',
-      taskStatus: taskStatus[0]?.id,
-    });
+    reset();
+
+    remove();
   };
 
   return (
@@ -78,48 +82,63 @@ function AddUpdateTaskModal({
         <form
           action=""
           className="bg-white dark:bg-slate-800 rounded-md w-11/12 md:w-4/5 lg:w-2/5 h-full p-7 flex flex-col gap-6 overflow-y-scroll scrollbar-hide"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <h2 className="text-black dark:text-white font-semibold text-lg">
             {updating ? 'Edit Task' : 'Add New Task'}
           </h2>
 
           <label htmlFor="taskName" className="flex flex-col gap-2">
-            <span className="text-gray-500 dark:text-white text-sm font-semibold">
-              Task Name
-            </span>
+            <p className="text-gray-500 dark:text-white text-sm font-semibold text-left flex justify-between">
+              <span>
+                Task Name
+              </span>
+              {errors.taskName
+              && (<span className="text-red-600">This is not a correct task name</span>)}
+            </p>
 
             <input
               type="text"
               name="taskName"
               id="taskName"
               placeholder="e.g. Take coffe break"
-              value={formTask.taskName}
-              className="border-gray-200 dark:border-gray-500 dark:bg-slate-800 border-2 rounded-md py-2 px-2 placeholder:text-sm dark:text-white text-black font-normal"
-              onChange={(e) => setFormTask({ ...formTask, [e.target.name]: e.target.value })}
+              className={`${errors.taskName ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} dark:bg-slate-800 border-2 rounded-md py-2 px-2 text-black dark:text-white text-sm placeholder:text-sm`}
+              {...register(
+                'taskName',
+                {
+                  pattern: /^[a-zA-Z\s]{3,40}$/,
+                  required: true,
+                },
+              )}
             />
           </label>
 
           <label htmlFor="description" className="flex flex-col gap-2">
-            <span className="text-gray-500 dark:text-white text-sm font-semibold">
-              Description
-            </span>
+            <p className="text-gray-500 dark:text-white text-sm font-semibold text-left flex justify-between">
+              <span>
+                Description
+              </span>
+              {errors.taskDescription
+              && (<span className="text-red-600">This is not a correct task description</span>)}
+            </p>
 
             <textarea
               name="taskDescription"
-              id="description"
+              id="taskDescription"
               cols="30"
               rows="5"
               placeholder="e.g. It's always good to take a break. This  15 minute break will  recharge the batteries a little."
-              value={formTask.taskDescription}
-              className="dark:bg-slate-800 border-2 rounded-md py-2 px-2 border-gray-200 dark:border-gray-500 placeholder:text-sm dark:text-white text-black font-normal"
-              onChange={(e) => setFormTask({ ...formTask, [e.target.name]: e.target.value })}
+              className={`${errors.taskDescription ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} dark:bg-slate-800 border-2 rounded-md py-2 px-2 text-black dark:text-white text-sm placeholder:text-sm`}
+              {...register('taskDescription', { pattern: /^[a-zA-Z\s]{3,60}$/ })}
             />
           </label>
 
           <ListOfInputs
-            inputs={inputs}
-            setInputs={setInputs}
+            fields={fields}
+            append={append}
+            remove={remove}
+            register={register}
+            errors={errors}
             setSubtasks={setSubtasks}
             isSubtask
             updating={updating}
@@ -127,8 +146,7 @@ function AddUpdateTaskModal({
 
           <CurrentStatus
             task={task}
-            formTask={formTask}
-            setFormTask={setFormTask}
+            register={register}
             updating={updating}
           />
 

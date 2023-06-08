@@ -5,59 +5,38 @@ import getSubtaskById from '../services/getSubtaskById';
 import getTaskStatusById from '../services/getTaskStatusById';
 
 function ListOfInputs({
-  inputs, setInputs, setSubtasks = null, isSubtask = false, updating,
+  fields,
+  append,
+  remove,
+  register,
+  errors,
+  setSubtasks = null,
+  isSubtask = false,
+  updating,
 }) {
   const { selectedBoard, taskStatus, setTaskStatus } = useDatabaseContext();
 
-  // Change the input value that has been written to
-  const handleChange = (e) => {
-    const newState = inputs.map((input) => {
-      if (input.idInput.toString() === e.target.id) {
-        return { ...input, valueInput: e.target.value };
-      }
-
-      return input;
-    });
-
-    setInputs(newState);
-  };
-
-  // Add news inputs
+  // Add news task status or subtasks
   const handleAddInput = () => {
     const generateInputId = crypto.randomUUID();
 
     if (isSubtask) {
-      setInputs([
-        ...inputs,
-        {
-          idInput: generateInputId,
-          nameInput: `subtask-${generateInputId}`,
-          doneInput: false,
-          valueInput: '',
-        },
-      ]);
+      append({ idInput: generateInputId, name: `subtasks-${generateInputId}`, done: false });
     } else {
-      setInputs([
-        ...inputs,
-        {
-          idInput: generateInputId,
-          nameInput: `taskStatus-${generateInputId}`,
-          valueInput: '',
-        },
-      ]);
+      append({ idInput: generateInputId, name: `taskStatus-${generateInputId}` });
     }
   };
 
-  // Delete inputs
-  const handleDelete = async (id) => {
-    // Delete status of the selected board
+  // Delete task status or subtasks
+  const handleDelete = async ({ id, idInput }) => {
+    // Delete task status of the selected board
     if (updating && !isSubtask) {
-      // Check if the deleted status input is in the database
-      const data = await getTaskStatusById({ boardId: selectedBoard?.id, statusId: Number(id) });
+      // Check if the deleted status is in the database
+      const data = await getTaskStatusById({ boardId: selectedBoard?.id, statusId: id });
 
-      // If the deleted status input is in the database then the status is deleted from the database
+      // If the deleted status is in the database then is also deleted from the database
       if (data) {
-        await deleteTaskStatus({ statusId: Number(id) });
+        await deleteTaskStatus({ statusId: id });
 
         // The taskStatus state is updated without the deleted status
         setTaskStatus(taskStatus.filter((status) => status.id !== id));
@@ -65,51 +44,64 @@ function ListOfInputs({
     }
 
     if (updating && isSubtask) {
-      // Check if the deleted subtask input is in the database
-      const data = await getSubtaskById({ idSubtask: Number(id) });
+      // Check if the deleted subtask is in the database
+      const data = await getSubtaskById({ idSubtask: id });
 
-      // If the deleted subtask input is in the database then the subtask
-      // is deleted from the database
+      // If the deleted subtask is in the database then is also deleted from the database
       if (data) {
-        await deleteSubtask({ idSubtask: Number(id) });
+        await deleteSubtask({ idSubtask: id });
 
         // The subtask state is updated without the deleted subtask
         setSubtasks((prevState) => prevState.filter((subtask) => subtask.id !== id));
       }
     }
 
-    // The inputs state is updated without the deleted status input
-    setInputs(inputs.filter((input) => input.idInput !== id));
+    // Remove the subtask or the task status from the form
+    remove(idInput);
   };
 
   return (
     <>
-      <label htmlFor="taskName" className="flex flex-col gap-2">
-        <span className="text-gray-500 dark:text-white text-sm font-semibold">
+      <div htmlFor="taskName" className="flex flex-col gap-2">
+        <p className="text-gray-500 dark:text-white text-sm font-semibold flex justify-between">
           {isSubtask ? 'Subtasks' : 'Board Columns'}
-        </span>
 
-        {inputs.map(({ idInput, nameInput, valueInput }) => (
-          <div className="flex items-center gap-2" key={idInput}>
+          {errors.taskStatus
+          && <span className="text-red-600">This is not a correct task status name</span>}
+
+          {errors.subtasks
+          && <span className="text-red-600">This is not a correct subtask name</span>}
+        </p>
+
+        {fields.map((field, index) => (
+          <label
+            className="flex items-center gap-2"
+            key={field.id}
+            htmlFor={isSubtask ? `subtasks.${index}.value` : `taskStatus.${index}.value`}
+          >
             <input
               type="text"
-              name={nameInput}
-              id={idInput}
-              value={valueInput}
               placeholder={isSubtask ? 'e.g. Take coffe break' : 'e.g. Todo'}
-              className="dark:bg-slate-800 border-2 rounded-md py-2 px-2 border-gray-200 dark:border-gray-500 flex-1 placeholder:text-sm dark:text-white text-black font-normal"
-              onChange={handleChange}
+              className={`${(errors?.taskStatus?.[index] || errors?.subtasks?.[index]) ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} dark:bg-slate-800 border-2 rounded-md py-2 px-2 text-black dark:text-white text-sm w-full`}
+              {...register(
+                `${isSubtask ? `subtasks.${index}.value` : `taskStatus.${index}.value`}`,
+                {
+                  pattern: /^[a-zA-Z\s]{3,40}$/,
+                  required: true,
+                },
+              )}
             />
+
             <button
               type="button"
               className="w-fit"
-              onClick={() => handleDelete(idInput)}
+              onClick={() => handleDelete({ id: field.idInput, idInput: index })}
             >
               <img src="/assets/icon-cross.svg" alt="Delete input" />
             </button>
-          </div>
+          </label>
         ))}
-      </label>
+      </div>
 
       <button
         type="button"

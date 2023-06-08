@@ -1,45 +1,57 @@
-import {
-  useCallback, useEffect, useState,
-} from 'react';
+import { useCallback, useEffect } from 'react';
+import { useFieldArray } from 'react-hook-form';
 import useDatabaseContext from './useDatabaseContext';
 import getDefaultInputs from '../helpers/getDefaultInputs';
 import addTaskStatus from '../services/addTaskStatus';
 import getInputsToUpdate from '../helpers/getInputsToUpdate';
 import getTaskStatusById from '../services/getTaskStatusById';
 import updateTaskStatusName from '../services/updateTaskStatusName';
+import getFormattedInputs from '../helpers/getFormattedInputs';
 
-function useTasksStatus({ openBoardModal, updating }) {
+function useTasksStatus({ openBoardModal, updating, control } = {}) {
   const {
     selectedBoard, taskStatus, setTaskStatus,
   } = useDatabaseContext();
-  const [inputs, setInputs] = useState([]);
 
-  /* Create task status inputs with their values for each existing task status
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'taskStatus',
+  });
+
+  /* Add task status inputs with their values for each existing task status
   if it is in update mode */
   useEffect(() => {
-    if (updating) {
-      setInputs(getDefaultInputs({ inputs: taskStatus, isSubtask: false }));
-    } else {
-      setInputs(getDefaultInputs({ inputs: [], isSubtask: false }));
+    if (!updating && openBoardModal) {
+      append(getDefaultInputs({ inputs: [], isSubtask: false }), { shouldFocus: false });
+    } else if (updating && openBoardModal) {
+      append(getDefaultInputs({ inputs: taskStatus, isSubtask: false }), { shouldFocus: false });
     }
-  }, [openBoardModal, selectedBoard]);
+  }, [openBoardModal]);
 
-  const addOrUpdateTasksStatus = useCallback(async ({ boardId }) => {
+  const addOrUpdateTasksStatus = useCallback(async ({ newTasksStatus, boardId }) => {
     if (!updating) {
-      // Get the data from the tasks status inputs state
-      const newTasksStatus = inputs.map(({ valueInput }) => (
-        { name: valueInput, board_id: boardId }
-      ));
+      // I am left with only the properties that I need to save in the database
+      const taskStatusToAdd = getFormattedInputs({
+        newInputs: newTasksStatus,
+        isSubtask: false,
+        id: boardId,
+      });
 
       // Add the new tasks status that belong to the new board to the database
-      await addTaskStatus({ taskStatus: newTasksStatus });
-    } else {
-      // Returns from the inputs state the status inputs where the name
-      // has been changed and the new status inputs added to the state
-      const inputsToUpdate = getInputsToUpdate({ initialState: taskStatus, inputs });
+      await addTaskStatus({ taskStatus: taskStatusToAdd });
 
-      inputsToUpdate.forEach(async ({ idInput, valueInput }) => {
-        // Check if any of the inputs already exist in the database
+      // Update the taskStatus update
+      setTaskStatus(newTasksStatus);
+    } else {
+      /* Returns from the task status of the form the task status inputs where the name
+      has been changed and the new task status added to the form */
+      const inputsToUpdate = getInputsToUpdate({
+        initialState: taskStatus,
+        inputs: newTasksStatus,
+      });
+
+      inputsToUpdate.forEach(async ({ idInput, value }) => {
+        // Check if any of the task status already exist in the database
         const data = await getTaskStatusById({
           boardId,
           statusId: idInput,
@@ -47,12 +59,12 @@ function useTasksStatus({ openBoardModal, updating }) {
 
         if (data) {
           // Update the task status name in the database
-          await updateTaskStatusName({ newStatusName: valueInput, idStatus: idInput });
+          await updateTaskStatusName({ newStatusName: value, idStatus: idInput });
 
           // Update the task status name in the state
           setTaskStatus((prevState) => prevState.map((state) => {
             if (state.id === idInput) {
-              return { ...state, name: valueInput };
+              return { ...state, name: value };
             }
 
             return state;
@@ -60,7 +72,10 @@ function useTasksStatus({ openBoardModal, updating }) {
         } else {
           // Add news task status in the database
           const newTaskStatusAdded = await addTaskStatus({
-            taskStatus: { name: valueInput, board_id: boardId },
+            taskStatus: {
+              name: value,
+              board_id: boardId,
+            },
           });
 
           // Add news task status in the state
@@ -68,10 +83,15 @@ function useTasksStatus({ openBoardModal, updating }) {
         }
       });
     }
-  }, [inputs]);
+
+    return null;
+  }, [selectedBoard]);
 
   return {
-    addOrUpdateTasksStatus, inputs, setInputs,
+    addOrUpdateTasksStatus,
+    fields,
+    append,
+    remove,
   };
 }
 

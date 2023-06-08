@@ -2,7 +2,7 @@ import useDatabaseContext from '../hooks/useDatabaseContext';
 import updateTaskStatus from '../services/updateTaskStatus';
 
 function CurrentStatus({
-  task = {}, formTask = {}, setFormTask = null, updating = false,
+  task = {}, register, updating = false,
 }) {
   const { taskStatus, tasks, setTasks } = useDatabaseContext();
 
@@ -21,9 +21,6 @@ function CurrentStatus({
       });
 
       setTasks(newTasksState);
-    } else {
-      // Get the status where the new task will appear
-      setFormTask({ ...formTask, [e.target.name]: e.target.value });
     }
   };
 
@@ -36,8 +33,8 @@ function CurrentStatus({
       <select
         name="taskStatus"
         id="taskStatus"
-        onChange={handleChangeStatus}
         className="dark:text-white dark:bg-slate-800 text-black bg-transparent border-2 rounded-md border-gray-200 dark:border-gray-500 placeholder:text-sm text-sm font-normal w-full appearance-none p-2 bg-[url('/assets/icon-chevron-down.svg')] bg-no-repeat bg-right bg-origin-content"
+        {...register('taskStatus', { onChange: handleChangeStatus })}
       >
         {taskStatus?.map((taskState) => (
           <option

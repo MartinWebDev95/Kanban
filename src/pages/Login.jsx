@@ -3,7 +3,7 @@ import useAuthContext from '../hooks/useAuthContext';
 
 function Login() {
   const {
-    inputEmail, setInputEmail, handleLogin, handleLoginWithGoogle, handleLoginWithGithub,
+    handleLogin, handleLoginWithGoogle, handleLoginWithGithub, register, handleSubmit, errors,
   } = useAuthContext();
 
   return (
@@ -18,22 +18,30 @@ function Login() {
         </h2>
 
         <form
-          onSubmit={handleLogin}
+          onSubmit={handleSubmit(handleLogin)}
           className="flex flex-col gap-4 lg:mx-auto"
         >
           <label htmlFor="email" className="flex flex-col gap-2">
-            <span className="dark:text-white font-semibold text-black text-sm">
-              E-mail:
-            </span>
+            <p className="dark:text-white font-semibold text-black text-sm flex justify-between">
+              <span>
+                E-mail:
+              </span>
+              {errors.inputEmail && <span className="text-red-600">This is not a e-mail</span>}
+            </p>
 
             <input
               type="email"
               name="email"
               id="email"
-              value={inputEmail}
               placeholder="example@kanban.com"
               className="bg-transparent border-2 rounded-md border-gray-300 dark:border-gray-500 p-2 font-semibold text-sm dark:text-white"
-              onChange={(e) => setInputEmail(e.target.value)}
+              {...register(
+                'inputEmail',
+                {
+                  pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                  required: true,
+                },
+              )}
             />
           </label>
 

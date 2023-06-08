@@ -1,86 +1,96 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-
 import ListOfInputs from './ListOfInputs';
 import useBoards from '../hooks/useBoards';
 import useTasksStatus from '../hooks/useTasksStatus';
+import useDatabaseContext from '../hooks/useDatabaseContext';
 
 function BoardModal({
   openBoardModal, setOpenBoardModal, updating = false,
 }) {
+  const { selectedBoard } = useDatabaseContext();
+
   const {
-    addOrUpdateBoards, nameBoard, setNameBoard, selectedBoard, errorBoard, setErrorBoard,
+    addOrUpdateBoards, register, handleSubmit, errors, reset, control,
   } = useBoards({ openBoardModal, updating });
 
   const {
-    addOrUpdateTasksStatus, inputs, setInputs,
-  } = useTasksStatus({ openBoardModal, updating });
+    addOrUpdateTasksStatus, fields, append, remove,
+  } = useTasksStatus({ openBoardModal, updating, control });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!updating) {
-      const newBoardId = await addOrUpdateBoards();
-
-      await addOrUpdateTasksStatus({ boardId: newBoardId });
-    } else {
-      await addOrUpdateBoards();
-
-      await addOrUpdateTasksStatus({ boardId: selectedBoard.id });
-    }
-
-    // If there is not error the modal is closed
-    if (errorBoard !== '') {
+  const handleCloseBoardModal = (e = null) => {
+    if (e.target.ariaLabel === 'newBoard-modal') {
+      // Close the board modal
       setOpenBoardModal(false);
+
+      // Reset the board name
+      reset();
+
+      // Reset the board columns
+      remove();
     }
   };
 
-  const handleCloseBoardModal = (e) => {
-    if (e.target.ariaLabel === 'newBoard-modal') {
-      setOpenBoardModal(false);
-    }
+  const onSubmit = async (data) => {
+    const { nameBoard, taskStatus } = data;
+
+    const newBoard = await addOrUpdateBoards({ newBoardName: nameBoard });
+
+    await addOrUpdateTasksStatus({
+      newTasksStatus: taskStatus,
+      boardId: !updating ? newBoard : selectedBoard.id,
+    });
+
+    setOpenBoardModal(false);
+
+    reset();
+
+    remove();
   };
 
   return (
     openBoardModal && (
       <div
-        className="grid place-items-center bg-black/50 absolute z-30 top-0 left-0 bottom-0 w-screen h-screen py-16"
+        className="grid place-items-center bg-black/50 absolute z-20 lg:z-30 top-0 left-0 bottom-0 w-screen h-screen py-16"
         aria-label="newBoard-modal"
         onClick={handleCloseBoardModal}
       >
         <form
           className="bg-white dark:bg-slate-800 rounded-md w-11/12 md:w-4/5 lg:w-2/5 h-full p-7 flex flex-col gap-6 overflow-y-scroll scrollbar-hide"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <h2 className="text-black dark:text-white font-semibold text-lg text-left">
             {updating ? 'Edit Board' : 'Add New Board'}
           </h2>
 
           <label htmlFor="taskName" className="flex flex-col gap-2">
-            <p className={`${errorBoard ? 'text-red-600' : 'text-gray-500 dark:text-white'} text-sm font-semibold text-left flex justify-between`}>
+            <p className="text-gray-500 dark:text-white text-sm font-semibold text-left flex justify-between">
               <span>
                 Board Name
               </span>
-              <span className={`${errorBoard ? 'block' : 'hidden'}`}>
-                {errorBoard}
-              </span>
+              {errors.nameBoard && <span className="text-red-600">This is not a correct board name</span>}
             </p>
 
             <input
               type="text"
-              name="taskName"
-              id="taskName"
-              defaultValue={nameBoard}
               placeholder="e.g. Product Launch"
-              className={`dark:bg-slate-800 border-2 rounded-md py-2 px-2 ${errorBoard ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} text-black dark:text-white text-sm`}
-              onChange={(e) => setNameBoard(e.target.value)}
-              onFocus={() => setErrorBoard('')}
+              className={`${errors.nameBoard ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} dark:bg-slate-800 border-2 rounded-md py-2 px-2 text-black dark:text-white text-sm`}
+              {...register(
+                'nameBoard',
+                {
+                  pattern: /^[a-zA-Z\s]{3,20}$/,
+                  required: true,
+                },
+              )}
             />
           </label>
 
           <ListOfInputs
-            inputs={inputs}
-            setInputs={setInputs}
+            fields={fields}
+            append={append}
+            remove={remove}
+            register={register}
+            errors={errors}
             updating={updating}
           />
 

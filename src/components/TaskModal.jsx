@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import ListOfSubtasks from './ListOfSubtasks';
 import SettingsModal from './SettingsModal';
 import AddUpdateTaskModal from './AddUpdateTaskModal';
@@ -13,6 +14,8 @@ function TaskModal({
   const [openSettingsModal, setOpenSettingsModal] = useState(false);
   const [openAddUpdateTaskModal, setOpenAddUpdateTaskModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const { register } = useForm();
 
   const handleCloseTaskModal = (e) => {
     if (e.target.ariaLabel === 'task-modal') {
@@ -63,6 +66,7 @@ function TaskModal({
 
             <CurrentStatus
               task={task}
+              register={register}
               updating
             />
 

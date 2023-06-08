@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import useAuthContext from './useAuthContext';
 import useDatabaseContext from './useDatabaseContext';
 import addBoard from '../services/addBoard';
@@ -6,31 +7,33 @@ import updateBoardName from '../services/updateBoardName';
 import deleteBoard from '../services/deleteBoard';
 
 function useBoards({ openBoardModal, updating } = {}) {
-  const regexBoardName = /^[a-zA-Z]{3,10}$/;
   const { currentUser } = useAuthContext();
+
   const {
     selectedBoard, setSelectedBoard, boards, setBoards, setTaskStatus,
   } = useDatabaseContext();
-  const [nameBoard, setNameBoard] = useState('');
-  const [errorBoard, setErrorBoard] = useState('');
 
-  // Write the board name in the input value if it is in update mode
+  const {
+    register, handleSubmit, formState: { errors }, reset, control, setValue, setFocus,
+  } = useForm({
+    defaultValues: {
+      nameBoard: '',
+    },
+  });
+
+  // If it is in update mode, the form field is filled with the name of the selected board
   useEffect(() => {
-    if (updating) {
-      setNameBoard(selectedBoard && selectedBoard.name);
-    } else {
-      setNameBoard('');
+    if (updating && openBoardModal) {
+      setValue('nameBoard', selectedBoard.name);
     }
 
-    if (errorBoard !== '') {
-      setErrorBoard('');
-    }
-  }, [openBoardModal, selectedBoard]);
+    setFocus('nameBoard');
+  }, [openBoardModal]);
 
-  const addOrUpdateBoards = useCallback(async () => {
-    if (!updating && regexBoardName.test(nameBoard)) {
+  const addOrUpdateBoards = useCallback(async ({ newBoardName }) => {
+    if (!updating) {
       // Add new board to the database
-      const newBoard = await addBoard({ boardName: nameBoard, idUser: currentUser.id });
+      const newBoard = await addBoard({ boardName: newBoardName, idUser: currentUser.id });
 
       // Select the new board added
       setSelectedBoard(newBoard[0]);
@@ -42,18 +45,18 @@ function useBoards({ openBoardModal, updating } = {}) {
       return newBoard[0].id;
     }
 
-    if (selectedBoard?.name !== nameBoard && regexBoardName.test(nameBoard)) {
+    if (selectedBoard?.name !== newBoardName) {
       // Update the board name in the database
-      await updateBoardName({ idBoard: selectedBoard.id, newBoardName: nameBoard });
+      await updateBoardName({ idBoard: selectedBoard?.id, newBoardName });
 
       const newBoardsState = boards.map((item) => {
         if (item.id === selectedBoard.id) {
-          const newBoardName = { ...item, name: nameBoard };
+          const newName = { ...item, name: newBoardName };
 
           // Select the board just updated
-          setSelectedBoard(newBoardName);
+          setSelectedBoard(newName);
 
-          return newBoardName;
+          return newName;
         }
 
         return item;
@@ -61,12 +64,10 @@ function useBoards({ openBoardModal, updating } = {}) {
 
       // Update the board name in the boards state
       setBoards(newBoardsState);
-    } else {
-      setErrorBoard('This is not a correct board name');
     }
 
     return null;
-  }, [currentUser, nameBoard]);
+  }, [currentUser, selectedBoard]);
 
   const handleDeleteBoard = async () => {
     // Delete board in database
@@ -77,10 +78,10 @@ function useBoards({ openBoardModal, updating } = {}) {
 
     setBoards(remainingBoards);
 
-    // If there are boards remaining, change the selected board to the first
-    // in the list of boards, in case there are no boards remaining, reset
-    // the selected board state to null and remove the task status of the
-    // board just deleted
+    /* If there are boards remaining, change the selected board to the first
+     in the list of boards, in case there are no boards remaining, reset
+     the selected board state to null and remove the task status of the
+     board just deleted */
     if (remainingBoards.length > 0) {
       setSelectedBoard(boards[0]);
     } else {
@@ -91,12 +92,12 @@ function useBoards({ openBoardModal, updating } = {}) {
 
   return {
     addOrUpdateBoards,
-    nameBoard,
-    setNameBoard,
-    selectedBoard,
+    register,
+    handleSubmit,
+    errors,
+    reset,
+    control,
     handleDeleteBoard,
-    errorBoard,
-    setErrorBoard,
   };
 }
 

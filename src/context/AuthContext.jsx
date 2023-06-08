@@ -2,6 +2,7 @@ import {
   createContext, useEffect, useMemo, useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import supabase from '../../supabase';
 import getInfoCurrentUser from '../services/getInfoCurrentUser';
 
@@ -9,7 +10,11 @@ const authContext = createContext();
 
 function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
-  const [inputEmail, setInputEmail] = useState('');
+  const { handleSubmit, register, formState: { errors } } = useForm({
+    defaultValues: {
+      inputEmail: '',
+    },
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,8 +37,8 @@ function AuthProvider({ children }) {
   }, []);
 
   // Sign with magic link method
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (data) => {
+    const { inputEmail } = data;
 
     try {
       await supabase.auth.signInWithOtp({
@@ -76,13 +81,14 @@ function AuthProvider({ children }) {
   const value = useMemo(() => ({
     currentUser,
     setCurrentUser,
-    inputEmail,
-    setInputEmail,
     handleLogin,
     handleLoginWithGoogle,
     handleLoginWithGithub,
     handleLogout,
-  }), [currentUser, inputEmail]);
+    handleSubmit,
+    register,
+    errors,
+  }), [currentUser, register, errors]);
 
   return (
     <authContext.Provider value={value}>
