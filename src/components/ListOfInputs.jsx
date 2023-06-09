@@ -86,7 +86,7 @@ function ListOfInputs({
               {...register(
                 `${isSubtask ? `subtasks.${index}.value` : `taskStatus.${index}.value`}`,
                 {
-                  pattern: /^[a-zA-Z\s]{3,40}$/,
+                  pattern: /^[a-zA-Z0-9\-\_\,\;\.\'ÑñáéíóúÁÉÍÓÚ\s]{3,}$/,
                   required: true,
                 },
               )}

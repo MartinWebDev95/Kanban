@@ -106,7 +106,7 @@ function AddUpdateTaskModal({
               {...register(
                 'taskName',
                 {
-                  pattern: /^[a-zA-Z\s]{3,40}$/,
+                  pattern: /^[a-zA-Z0-9\-\_\,\;\.\'ÑñáéíóúÁÉÍÓÚ\s]{3,}$/,
                   required: true,
                 },
               )}
@@ -127,9 +127,12 @@ function AddUpdateTaskModal({
               id="taskDescription"
               cols="30"
               rows="5"
-              placeholder="e.g. It's always good to take a break. This  15 minute break will  recharge the batteries a little."
+              placeholder="e.g. It's always good to take a break. This 15 minute break will  recharge the batteries a little."
               className={`${errors.taskDescription ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} dark:bg-slate-800 border-2 rounded-md py-2 px-2 text-black dark:text-white text-sm placeholder:text-sm`}
-              {...register('taskDescription', { pattern: /^[a-zA-Z\s]{3,60}$/ })}
+              {...register(
+                'taskDescription',
+                { pattern: /^[a-zA-Z0-9\-\_\,\;\.\'ÑñáéíóúÁÉÍÓÚ\s]{3,}$/ },
+              )}
             />
           </label>
 

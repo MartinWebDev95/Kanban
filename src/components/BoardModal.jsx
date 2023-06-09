@@ -78,7 +78,7 @@ function BoardModal({
               {...register(
                 'nameBoard',
                 {
-                  pattern: /^[a-zA-Z\s]{3,20}$/,
+                  pattern: /^[a-zA-Z0-9\-\_\,\;\.\'ÑñáéíóúÁÉÍÓÚ\s]{3,}$/,
                   required: true,
                 },
               )}
