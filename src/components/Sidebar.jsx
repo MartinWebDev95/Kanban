@@ -52,7 +52,9 @@ function Sidebar({ showSidebar, setShowSidebar }) {
             <Logout />
           </div>
 
-          <ToggleTheme />
+          <div className="px-4">
+            <ToggleTheme />
+          </div>
         </div>
       </div>
     </aside>
