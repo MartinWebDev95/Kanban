@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import SectionTasks from '../components/SectionTasks';
 import useDatabaseContext from '../hooks/useDatabaseContext';
-import NoBoards from '../components/NoBoards';
+import NoItems from '../components/NoItems';
 
 function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -16,7 +16,7 @@ function Home() {
       <main className="flex items-start h-full">
         <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
 
-        {selectedBoard ? <SectionTasks /> : <NoBoards />}
+        {selectedBoard ? <SectionTasks /> : <NoItems />}
       </main>
     </>
   );

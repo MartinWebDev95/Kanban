@@ -4,7 +4,7 @@ import getTasks from '../services/getTasks';
 import ListOfTasks from './ListOfTasks';
 import getTasksNumberByStatus from '../helpers/getTasksNumberByStatus';
 import BoardModal from './BoardModal';
-import NoStatus from './NoStatus';
+import NoItems from './NoItems';
 
 function ListOfStatus({ taskStatus }) {
   const {
@@ -24,7 +24,7 @@ function ListOfStatus({ taskStatus }) {
   return (
     taskStatus.length === 0
       ? (
-        <NoStatus />
+        <NoItems isStatus />
       ) : (
         <>
           <ul className="grid grid-flow-col auto-cols-min h-full w-full gap-4">

@@ -1,16 +1,22 @@
 import { useState } from 'react';
 import BoardModal from './BoardModal';
 
-function NoStatus() {
+function NoItems({ isStatus = false }) {
   const [openAddBoardModal, setOpenAddBoardModal] = useState(false);
 
   return (
     <>
       <div className="w-full h-full grid place-items-center">
         <div className="flex flex-col items-center gap-4">
-          <h2 className="text-lg lg:text-xl font-semibold text-gray-500 text-center">
-            This board is empty. Create a new column to get started.
-          </h2>
+          {isStatus ? (
+            <h2 className="text-lg lg:text-xl font-semibold text-gray-500 text-center">
+              This board is empty. Create a new column to get started.
+            </h2>
+          ) : (
+            <h2 className="text-lg lg:text-xl font-semibold text-gray-500 text-center">
+              There are no boards available. Create a new board to get started.
+            </h2>
+          )}
 
           <button
             type="button"
@@ -18,7 +24,15 @@ function NoStatus() {
             onClick={() => setOpenAddBoardModal(true)}
           >
 
-            + Add New Column
+            {isStatus ? (
+              <span>
+                + Add New Column
+              </span>
+            ) : (
+              <span>
+                + Create New Board
+              </span>
+            )}
 
           </button>
         </div>
@@ -27,10 +41,10 @@ function NoStatus() {
       <BoardModal
         openBoardModal={openAddBoardModal}
         setOpenBoardModal={setOpenAddBoardModal}
-        updating
+        updating={!!isStatus}
       />
     </>
   );
 }
 
-export default NoStatus;
+export default NoItems;
