@@ -29,7 +29,7 @@ function useTask({
       setValue('taskDescription', task.description);
       setValue('taskStatus', task.status_id);
     } else {
-      setValue('taskStatus', taskStatus[0]?.id);
+      setValue('taskStatus', taskStatus?.[0]?.id);
     }
 
     setFocus('taskName');

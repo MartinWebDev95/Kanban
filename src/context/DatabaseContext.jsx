@@ -5,7 +5,7 @@ const dbContext = createContext();
 function DatabaseProvider({ children }) {
   const [boards, setBoards] = useState([]);
   const [selectedBoard, setSelectedBoard] = useState(null);
-  const [taskStatus, setTaskStatus] = useState([]);
+  const [taskStatus, setTaskStatus] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 

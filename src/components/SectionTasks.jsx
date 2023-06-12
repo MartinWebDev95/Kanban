@@ -13,16 +13,13 @@ function SectionTasks() {
     // Shows the spinner every time the board is changed
     if (!loading) setLoading(true);
 
-    // When selectedBoard state is not empty...
-    if (Object.keys(selectedBoard).length > 0) {
-      getStatus(selectedBoard)
-        .then((item) => {
-          setTaskStatus(item);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
+    getStatus(selectedBoard)
+      .then((item) => {
+        setTaskStatus(item);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [selectedBoard]);
 
   return (
