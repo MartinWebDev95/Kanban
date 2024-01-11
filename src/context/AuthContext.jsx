@@ -52,6 +52,18 @@ function AuthProvider({ children }) {
     }
   };
 
+  // Login with demo user
+  const handleLoginDemoUser = async () => {
+    try {
+      await supabase.auth.signInWithPassword({
+        email: import.meta.env.VITE_DEMO_EMAIL,
+        password: import.meta.env.VITE_DEMO_PASSWORD,
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
   // Sign in with Google OAuth
   const handleLoginWithGoogle = async () => {
     try {
@@ -82,6 +94,7 @@ function AuthProvider({ children }) {
     currentUser,
     setCurrentUser,
     handleLogin,
+    handleLoginDemoUser,
     handleLoginWithGoogle,
     handleLoginWithGithub,
     handleLogout,
