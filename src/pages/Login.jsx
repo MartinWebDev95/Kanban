@@ -3,7 +3,13 @@ import useAuthContext from '../hooks/useAuthContext';
 
 function Login() {
   const {
-    handleLogin, handleLoginWithGoogle, handleLoginWithGithub, register, handleSubmit, errors,
+    handleLogin,
+    handleLoginDemoUser,
+    handleLoginWithGoogle,
+    handleLoginWithGithub,
+    register,
+    handleSubmit,
+    errors,
   } = useAuthContext();
 
   return (
@@ -52,6 +58,14 @@ function Login() {
             Sign in with email
           </button>
         </form>
+
+        <button
+          type="button"
+          className="bg-indigo-700 rounded-full p-2 hover:bg-indigo-500 text-white font-semibold transition-all duration-200 ease-in-out w-full mt-4 flex items-center justify-center gap-4 lg:mx-auto"
+          onClick={handleLoginDemoUser}
+        >
+          Sign in with demo user
+        </button>
 
         <button
           type="button"
