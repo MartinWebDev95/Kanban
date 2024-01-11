@@ -75,17 +75,6 @@ function AuthProvider({ children }) {
     }
   };
 
-  // Sign in with Github OAuth
-  const handleLoginWithGithub = async () => {
-    try {
-      await supabase.auth.signInWithOAuth({
-        provider: 'github',
-      });
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  };
-
   const handleLogout = async () => {
     await supabase.auth.signOut();
   };
@@ -96,7 +85,6 @@ function AuthProvider({ children }) {
     handleLogin,
     handleLoginDemoUser,
     handleLoginWithGoogle,
-    handleLoginWithGithub,
     handleLogout,
     handleSubmit,
     register,
