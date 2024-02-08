@@ -25,7 +25,7 @@ Aplicación web de organización de tareas donde puedes crear, editar y eliminar
 
 [![Button React]](https://es.react.dev/)
 [![Button Supabase]](https://supabase.com/)
-[![Button Tailwind]](https://styled-components.com/)
+[![Button Tailwind]](https://tailwindcss.com/docs/installation)
 [![Button React Router]](https://reactrouter.com/en/main)
 [![Button React Hook Form]](https://www.react-hook-form.com/)
 [![Button Vite]](https://vitejs.dev/)

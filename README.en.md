@@ -23,9 +23,9 @@ Task management web application where you can create, edit and delete tables, ta
 [Button Vite]:https://img.shields.io/badge/Vite-000000?style=for-the-badge&logo=vite
 [Button ESLint]:https://img.shields.io/badge/ESLint-000000?style=for-the-badge&logo=eslint
 
-[![Button React]](https://es.react.dev/)
+[![Button React]](https://react.dev/)
 [![Button Supabase]](https://supabase.com/)
-[![Button Tailwind]](https://styled-components.com/)
+[![Button Tailwind]](https://tailwindcss.com/docs/installation)
 [![Button React Router]](https://reactrouter.com/en/main)
 [![Button React Hook Form]](https://www.react-hook-form.com/)
 [![Button Vite]](https://vitejs.dev/)
