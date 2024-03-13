@@ -82,7 +82,7 @@ function ListOfInputs({
             <input
               type="text"
               placeholder={isSubtask ? 'e.g. Take coffe break' : 'e.g. Todo'}
-              className={`${(errors?.taskStatus?.[index] || errors?.subtasks?.[index]) ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} dark:bg-slate-800 border-2 rounded-md py-2 px-2 text-black dark:text-white text-sm w-full`}
+              className={`${(errors?.taskStatus?.[index] || errors?.subtasks?.[index]) ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} dark:bg-slate-800 border-2 rounded-md py-2 px-2 text-black dark:text-white text-sm w-full appearance-none`}
               {...register(
                 `${isSubtask ? `subtasks.${index}.value` : `taskStatus.${index}.value`}`,
                 {

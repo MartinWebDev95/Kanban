@@ -102,7 +102,7 @@ function AddUpdateTaskModal({
               name="taskName"
               id="taskName"
               placeholder="e.g. Take coffe break"
-              className={`${errors.taskName ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} dark:bg-slate-800 border-2 rounded-md py-2 px-2 text-black dark:text-white text-sm placeholder:text-sm`}
+              className={`${errors.taskName ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} dark:bg-slate-800 border-2 rounded-md py-2 px-2 text-black dark:text-white text-sm placeholder:text-sm appearance-none`}
               {...register(
                 'taskName',
                 {
@@ -128,7 +128,7 @@ function AddUpdateTaskModal({
               cols="30"
               rows="5"
               placeholder="e.g. It's always good to take a break. This 15 minute break will  recharge the batteries a little."
-              className={`${errors.taskDescription ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} dark:bg-slate-800 border-2 rounded-md py-2 px-2 text-black dark:text-white text-sm placeholder:text-sm`}
+              className={`${errors.taskDescription ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} dark:bg-slate-800 border-2 rounded-md py-2 px-2 text-black dark:text-white text-sm placeholder:text-sm appearance-none`}
               {...register(
                 'taskDescription',
                 { pattern: /^[a-zA-Z0-9\-\_\,\;\.\'ÑñáéíóúÁÉÍÓÚ\s]{3,}$/ },

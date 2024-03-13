@@ -74,7 +74,7 @@ function BoardModal({
             <input
               type="text"
               placeholder="e.g. Product Launch"
-              className={`${errors.nameBoard ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} dark:bg-slate-800 border-2 rounded-md py-2 px-2 text-black dark:text-white text-sm`}
+              className={`${errors.nameBoard ? 'border-red-600' : 'border-gray-200 dark:border-gray-500'} dark:bg-slate-800 border-2 rounded-md py-2 px-2 text-black dark:text-white text-sm appearance-none`}
               {...register(
                 'nameBoard',
                 {
