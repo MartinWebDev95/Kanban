@@ -3,9 +3,11 @@ import useDatabaseContext from '../hooks/useDatabaseContext';
 import getBoards from '../services/getBoards';
 import Board from './Board';
 import BoardModal from './BoardModal';
+import PlaceholderBoards from './PlaceholderBoards';
 
 function ListOfBoards() {
   const { boards, setBoards, setSelectedBoard } = useDatabaseContext();
+  const [loading, setLoading] = useState(true);
   const [openAddBoardModal, setOpenAddBoardModal] = useState(false);
 
   useEffect(() => {
@@ -15,6 +17,9 @@ function ListOfBoards() {
 
         // Change the first board state to selected
         setSelectedBoard(items[0] || null);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -37,10 +42,16 @@ function ListOfBoards() {
           </button>
         </li>
 
-        {boards?.map((board) => (
-          <Board key={board.id} board={board} />
-        ))}
-
+        {loading ? (
+          <>
+            <PlaceholderBoards active />
+            <PlaceholderBoards />
+          </>
+        ) : (
+          boards?.map((board) => (
+            <Board key={board.id} board={board} />
+          ))
+        )}
       </ul>
 
       <BoardModal
