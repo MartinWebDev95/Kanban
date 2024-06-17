@@ -8,32 +8,20 @@ function NoItems({ isStatus = false }) {
     <>
       <div className="w-full h-full grid place-items-center">
         <div className="flex flex-col items-center gap-4">
-          {isStatus ? (
-            <h2 className="text-lg lg:text-xl font-semibold text-gray-500 text-center">
-              This board is empty. Create a new column to get started.
-            </h2>
-          ) : (
-            <h2 className="text-lg lg:text-xl font-semibold text-gray-500 text-center">
-              There are no boards available. Create a new board to get started.
-            </h2>
-          )}
+          <h2 className="text-lg lg:text-xl font-semibold text-gray-500 text-center">
+            { isStatus
+              ? 'This board is empty. Create a new column to get started.'
+              : 'There are no boards available. Create a new board to get started.' }
+          </h2>
 
           <button
             type="button"
             className="bg-indigo-700 lg:hover:bg-indigo-500 transition-all duration-300 ease-in-out rounded-full text-white font-semibold px-4 py-2 flex items-center gap-2 text-base lg:text-xl"
             onClick={() => setOpenAddBoardModal(true)}
           >
-
-            {isStatus ? (
-              <span>
-                + Add New Column
-              </span>
-            ) : (
-              <span>
-                + Create New Board
-              </span>
-            )}
-
+            <span>
+              { isStatus ? '+ Add New Column' : '+ Create New Board' }
+            </span>
           </button>
         </div>
       </div>
