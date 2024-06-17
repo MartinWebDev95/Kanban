@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import useDatabaseContext from '../hooks/useDatabaseContext';
 import getTasks from '../services/getTasks';
-import ListOfTasks from './ListOfTasks';
-import getTasksNumberByStatus from '../helpers/getTasksNumberByStatus';
+// import ListOfTasks from './ListOfTasks';
+// import getTasksNumberByStatus from '../helpers/getTasksNumberByStatus';
 import BoardModal from './BoardModal';
 import NoItems from './NoItems';
+// import PlaceholderStatus from './PlaceholderStatus';
+import Status from './Status';
 
 function ListOfStatus({ taskStatus }) {
-  const {
-    tasks, setTasks, selectedBoard,
-  } = useDatabaseContext();
+  const { tasks, setTasks, selectedBoard } = useDatabaseContext();
   const [openEditBoardModal, setOpenEditBoardModal] = useState(false);
 
   useEffect(() => {
@@ -29,18 +29,7 @@ function ListOfStatus({ taskStatus }) {
         <>
           <ul className="grid grid-flow-col auto-cols-min h-full w-full gap-4">
             {taskStatus.map((status) => (
-              <li
-                key={status?.id}
-                className="font-semibold text-gray-500 text-sm tracking-widest w-72"
-              >
-                <span>
-                  {/* Return the task number of each status */}
-                  {getTasksNumberByStatus({ tasks, status })}
-                </span>
-
-                <ListOfTasks tasks={tasks} status={status} />
-
-              </li>
+              <Status key={status?.id} status={status} tasks={tasks} />
             ))}
 
             <li>
