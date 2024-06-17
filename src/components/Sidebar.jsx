@@ -21,7 +21,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
     <aside
       className={` 
         ${showSidebar
-        ? 'grid place-items-center bg-black/50 absolute w-full lg:flex lg:static lg:place-items-end'
+        ? 'grid place-items-center bg-black/50 absolute w-full lg:flex lg:static lg:place-items-end z-10'
         : 'hidden lg:flex'}
         ${hideSidebar
           ? 'lg:w-[0vw]'
