@@ -28,7 +28,6 @@ function SectionTasks() {
       {loading
         ? (<Spinner />)
         : (<ListOfStatus taskStatus={taskStatus} />)}
-
     </section>
   );
 }
