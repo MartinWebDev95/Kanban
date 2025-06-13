@@ -26,19 +26,19 @@ function Sidebar({ showSidebar, setShowSidebar }) {
         ${hideSidebar
           ? 'lg:w-[0vw]'
           : 'lg:flex lg:w-[20vw]'} 
-        top-0 left-0 h-full
+        top-0 left-0 h-full transition-all duration-300 ease-in-out
       `}
       aria-label="sidebar-modal"
       onClick={handleCloseModalSidebar}
     >
       <div className="bg-white dark:bg-slate-800 rounded-xl w-11/12 md:w-4/5 pb-4 lg:w-full lg:h-full lg:rounded-none lg:flex lg:flex-col lg:justify-between">
         <div className="pt-4">
-          <h2 className="uppercase text-gray-500 font-semibold ml-6 text-sm tracking-widest overflow-hidden">
+          <h2 className={`${hideSidebar ? 'opacity-0' : 'opacity-100'} uppercase text-gray-500 font-semibold ml-6 text-sm tracking-widest whitespace-nowrap overflow-hidden transition-opacity duration-200 ease-in-out`}>
             {`All boards (${boards?.length})`}
           </h2>
 
           <div
-            className={`overflow-y-scroll scrollbar-hide ${hideSidebar && 'lg:overflow-hidden'}`}
+            className={`overflow-y-scroll scrollbar-hide ${hideSidebar ? 'opacity-0' : 'opacity-100'} transition-opacity duration-200 ease-in-out`}
           >
             <ListOfBoards />
           </div>
