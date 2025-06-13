@@ -14,6 +14,7 @@ function Logout() {
 
         <button
           type="button"
+          aria-label="Logout"
           onClick={handleLogout}
           className="group"
         >
