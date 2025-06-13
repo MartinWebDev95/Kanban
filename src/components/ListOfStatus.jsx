@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react';
 import useDatabaseContext from '../hooks/useDatabaseContext';
 import getTasks from '../services/getTasks';
-// import ListOfTasks from './ListOfTasks';
-// import getTasksNumberByStatus from '../helpers/getTasksNumberByStatus';
 import BoardModal from './BoardModal';
 import NoItems from './NoItems';
-// import PlaceholderStatus from './PlaceholderStatus';
 import Status from './Status';
 
 function ListOfStatus({ taskStatus }) {
