@@ -18,10 +18,10 @@ function Task({ task }) {
       <li>
         <button
           type="button"
-          className="dark:bg-slate-800 bg-white p-4 rounded-lg flex flex-col gap-2 shadow-lg group w-full"
+          className="dark:bg-slate-800 bg-white p-4 rounded-lg flex flex-col items-start gap-2 shadow-lg group w-full"
           onClick={() => setOpenTaskModal(true)}
         >
-          <h2 className="dark:text-white text-black font-semibold text-left group-hover:text-indigo-700 transition-all duration-150 ease-in-out">
+          <h2 className="dark:text-white text-black text-left group-hover:text-indigo-700 transition-all duration-150 ease-in-out font-normal">
             {task.name}
           </h2>
 

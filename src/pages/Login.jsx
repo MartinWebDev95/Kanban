@@ -39,7 +39,7 @@ function Login() {
               name="email"
               id="email"
               placeholder="example@kanban.com"
-              className="bg-transparent border-2 rounded-md border-gray-300 dark:border-gray-500 p-2 font-semibold text-sm dark:text-white"
+              className="bg-transparent border-2 rounded-md border-gray-300 dark:border-gray-500 p-2 text-sm dark:text-white"
               {...register(
                 'inputEmail',
                 {
