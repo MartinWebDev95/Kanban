@@ -9,7 +9,7 @@
 
 Aplicación web de organización de tareas donde puedes crear, editar y eliminar tablas, estados de las tareas, las propias tareas y sus subtareas en caso de tenerlas.
 
-[![Button Kanban]](https://kanban-martinwebdev95.vercel.app)
+[![Button Kanban]](https://kanban-eight-fawn.vercel.app/)
 
 ## 👨🏽‍💻 ¿Qué tecnologías he utilizado?
 ---

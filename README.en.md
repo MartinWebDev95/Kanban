@@ -9,7 +9,7 @@
 
 Task management web application where you can create, edit and delete tables, task statuses, the tasks themselves and their subtasks if they have them.
 
-[![Button Kanban]](https://kanban-martinwebdev95.vercel.app)
+[![Button Kanban]](https://kanban-eight-fawn.vercel.app/)
 
 ## 👨🏽‍💻 What technologies I have used?
 ---
