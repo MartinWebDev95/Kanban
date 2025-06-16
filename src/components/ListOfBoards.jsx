@@ -29,7 +29,7 @@ function ListOfBoards() {
         <li>
           <button
             type="button"
-            className="flex items-center gap-4 pl-6 py-4 rounded-r-full w-full text-indigo-700 lg:hover:text-indigo-700 dark:lg:hover:bg-white lg:hover:bg-gray-100 transition-all duration-200 ease-in-out group"
+            className="flex items-center gap-4 pl-6 py-4 rounded-r-full w-full whitespace-nowrap text-indigo-700 lg:hover:text-indigo-700 dark:lg:hover:bg-white lg:hover:bg-gray-100 transition-all duration-200 ease-in-out group"
             onClick={() => setOpenAddBoardModal(true)}
           >
             <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" className="fill-indigo-700 group-hover:fill-gray-500">
