@@ -59,6 +59,12 @@ Aplicación web de organización de tareas donde puedes crear, editar y eliminar
 
 ![New Task Screenshot](https://github.com/MartinWebDev95/Kanban/blob/master/public/assets/screenshots/newTask.png)
 
+![Delete Task Screenshot](https://github.com/MartinWebDev95/Kanban/blob/master/public/assets/screenshots/deleteTask.png)
+
+![Light Main Page Screenshot](https://github.com/MartinWebDev95/Kanban/blob/master/public/assets/screenshots/lightMainPage.png)
+
+![Light Task Screenshot](https://github.com/MartinWebDev95/Kanban/blob/master/public/assets/screenshots/lightTask.png)
+
 ## 🗃️ Estructura del proyecto
 ---
 
