@@ -94,6 +94,8 @@ Esta es la estructura que he utilizado en este proyecto:
 ## 👀 ¿Dónde puedes encontrarme?
 ---
 
-[Button Portfolio]: https://img.shields.io/badge/Visita%20Mi%20Portfolio-000000?style=for-the-badge
+[Button Portfolio]: https://img.shields.io/badge/Visita%20mi%20Portfolio-000000?style=for-the-badge
+[Button Linkedin]: https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge
 
 [![Button Portfolio]](https://portfolio-martinwebdev95.vercel.app/)
+[![Button Linkedin]](https://www.linkedin.com/in/jamartindev/)
